@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Load page via XHR</title>
+	<style>
+		@keyframes anim {
+			0% { opacity: 1 }
+			100% { opacity: 0 }
+		}
+		.js-asyncPage {
+			transition: opacity 250ms ease-out;
+		}
+		.anim {
+			opacity: 0;
+/*			animation: anim 500ms linear 1 forwards;*/
+			
+		}
+	</style>
+	
+</head>
+<body>
+	
+	<a href="example.html">Example</a>
+	<a href="about.html">About us</a>
+	<a href="contact.html">Contact us</a>
+	<div class="js-asyncPage" aria-live="polite">
+
+		<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime natus nostrum asperiores quos doloremque dicta repudiandae vero, suscipit labore. Voluptas dicta nulla, nisi aut ratione, ad neque aspernatur nostrum ex.</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<hr>
+		<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo consectetur quis iusto, ab, commodi ipsa, impedit eligendi tempora rem incidunt ipsam necessitatibus molestiae. Ea consequuntur explicabo laudantium doloribus perspiciatis alias.</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+		<hr>
+		<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum vel autem voluptas, a, suscipit praesentium consequatur repellendus nemo, libero asperiores esse eos eaque. Reiciendis, ad, ipsa illum deserunt id iste!</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
+	
+	
+	</div>
+
+	
+	
+	
+	<script src="asyncPage.js"></script>
+	<script>
+		document.onreadystatechange = function () {
+			if ( document.readyState == 'complete' ) {
+				merl.asyncPage.init();
+			}
+		} 
+	</script>
+</body>
+</html>

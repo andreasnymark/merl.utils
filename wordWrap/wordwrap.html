@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Wordwrap</title>
+	<style>
+        p {
+            max-width: 50vw;
+            margin: auto;
+        }
+		@-webkit-keyframes lorem {
+			0% { opacity: 0; }
+			100% { opacity: 1; }
+		}
+		span {
+			animation: lorem .3s ease-out backwards;
+		}
+    </style>
+</head>
+<body>
+	<div class="js-wordwrap">
+		<p>Lorem ipsum ipsum åskådare svålskådare ipsum dolor sit ipsum amet, <strong>consectetur</strong> adipisicing elit. Vero quae animi magnam repudiandae nulla provident éxem och kallskuret quibusdam ipsum nam voluptates! Voluptatibus voluptates iste <a href="#">facilis ipsum quia nostrum</a> ipsum omnis, eos odit officiis recusandae.</p>
+   </div>
+   
+   <div class="js-wordwrap" data-wordwrap='{"wrapClass": "banana"}'>
+		<p>Dolor sit ipsum amet, <strong>consectetur</strong> adipisicing elit. Voluptatibus voluptates iste <a href="#">facilis ipsum quia nostrum</a> ipsum omnis, eos odit officiis recusandae.</p>
+   </div>
+   
+   <div class="js-wordwrap" data-wordwrap='{"wrapClass": "banana", "wrapElem": "i"}'>
+		<p>Dolor sit ipsum amet, <strong>consectetur</strong> adipisicing elit. Voluptatibus voluptates iste <a href="#">facilis ipsum quia nostrum</a> ipsum omnis, eos odit officiis recusandae.</p>
+   </div>
+   
+   <div class="js-wordwrap" data-wordwrap='{"wrapElem": "u"}'>
+		<p>Dolor sit ipsum amet, <strong>consectetur</strong> adipisicing elit. Voluptatibus voluptates iste <a href="#">facilis ipsum quia nostrum</a> ipsum omnis, eos odit officiis recusandae.</p>
+   </div>
+    
+	<script defer type="text/javascript" src="wordwrap.js"></script>
+	<script>
+        document.onreadystatechange = function () {
+			if ( document.readyState == 'complete' ) {
+				merl.wordwrap.init();
+			}
+		} 
+    </script>
+</body>
+</html>
