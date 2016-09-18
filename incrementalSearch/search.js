@@ -16,7 +16,11 @@ waylon.search = ( function( window, document ) {
 		expanded: 'is-expanded',
 		error: 'Something seems to be wrong with the server. Try to refresh, and let’s hope …',
 		noResult: 'No result.',
-		max: 5
+		max: 5,
+		url: '/ajax/search/',
+		viewAll: 'View all',
+		classItem: 'List-item',
+		classAnchor: 'Overlay-link'
 	};
 	
 	
@@ -152,7 +156,7 @@ waylon.search = ( function( window, document ) {
 	
 	
 	/**
-	* Template
+	* Template for each search result
 	*
 	* @method markupSearchItem
 	* @param title {String} Title
@@ -163,14 +167,14 @@ waylon.search = ( function( window, document ) {
 		var item = document.createElement( 'li' );
 		if ( url ) {
 			var anchor = document.createElement( 'a' );
-			anchor.classList.add( 'Overlay-link' );
+			anchor.classList.add( defs.classAnchor );
 			anchor.setAttribute( 'href', url );	
 			anchor.textContent = title;
 			item.appendChild( anchor );
 		} else {
 			item.textContent = title;	
 		}
-		item.classList.add( 'List-item' );
+		item.classList.add( defs.classItem );
 		return item;
 	};
 	
@@ -202,7 +206,7 @@ waylon.search = ( function( window, document ) {
 
 				// add view all if more than max
 				if( i + 1 == defs.max ) {
-					this.result.appendChild( markupSearchItem( 'View all', '/search?q=' + encodeURI( this.input.value ) ) );
+					this.result.appendChild( markupSearchItem( defs.viewAll, '/search?q=' + encodeURI( this.input.value ) ) );
 				}
 			}
 		} else {
@@ -215,12 +219,9 @@ waylon.search = ( function( window, document ) {
 	
 	
 	/**
-	* Traverse DOM upwards until class
+	* Removes all HTML in 'result'
 	*
-	* @method parentsUntilClass
-	* @param el {Object} Element to start from
-	* @param cls {String} Class name where to stop
-	* @return {Object}
+	* @method wipeResult
 	*/
 	var wipeResult = function() {
 		this.result.innerHTML = '';
