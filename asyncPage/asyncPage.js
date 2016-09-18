@@ -70,7 +70,6 @@ merl.asyncPage = ( function( window, document ) {
 	* @param url {String} URL to new page
 	*/
 	AsyncPage.prototype.xhRequest = function( xhr, url ) {
-		// console.log( url );
 		xhr.open( 'GET', url, true );
 		xhr.setRequestHeader( 'X-Requested-With', 'XMLHttpRequest' );
 		xhr.send();
@@ -97,7 +96,6 @@ merl.asyncPage = ( function( window, document ) {
 	*/
 	var getContent = function( evt ) {
 		var domain = extractDomain( evt.target.href );
-		console.log( 'Content' );
 		if( domain === origin ) {
 			var t = this;
 			currInstance = t;
@@ -159,8 +157,6 @@ merl.asyncPage = ( function( window, document ) {
 	* @param evt { PopStateEvent } evt
 	*/
 	var statePop = function( evt ) {
-		
-		// console.log( evt );
 		var url = ( evt.state ) ? evt.state.url : initLocation;		
 		currInstance.statePop = true;
 		currInstance.url = url;
