@@ -1,26 +1,30 @@
-/*
-**
-**  Toggle.js
-**
-**
+/**
+* incrementalSearch.js
+* Real-time suggestions while searching, using XMLHttpRequest. 
+*
+* Author: Andreas Nymark <andreas@nymark.me>
+* License: MIT
+* 
 */
-var waylon = waylon || {};
+var merl = merl || {};
 
-waylon.search = ( function( window, document ) {
+merl.incrementalSearch = ( function( window, document ) {
 	"use strict";
 
 
 	var defs = {
 		all: [],
 		input: '.js-incrementalsearch',
+		selectResult: '.Search-result',
 		expanded: 'is-expanded',
 		error: 'Something seems to be wrong with the server. Try to refresh, and let’s hope …',
 		noResult: 'No result.',
 		max: 5,
-		url: '/ajax/search/',
+		xhrUrl: '/ajax/search/',
 		viewAll: 'View all',
 		classItem: 'List-item',
-		classAnchor: 'Overlay-link'
+		classAnchor: 'Overlay-link',
+		classWrap: 'Search'
 	};
 	
 	
@@ -39,16 +43,13 @@ waylon.search = ( function( window, document ) {
 	var IncrementalSearch = function( input ) {
 		var t = this;
 		t.input = input;
-		t.result = document.querySelector( '.Search-result' );
+		t.result = document.querySelector( defs.selectResult );
 		t.xhrSearch = new XMLHttpRequest();
 		
 		t.input.addEventListener( 'input', triggerSearch.bind( t ) );
 		window.addEventListener( 'keydown', traverseResults.bind( t ) );
 		
 		t.xhrSearch.addEventListener( 'readystatechange', xhrState.bind( t ) );
-		
-		IncrementalSearch.prototype.appendResult = appendResult;
-		IncrementalSearch.prototype.wipeResult = wipeResult;
 	};
 
 	
@@ -103,7 +104,7 @@ waylon.search = ( function( window, document ) {
 		// 500ms delay on input so we don’t go crazy
 		searchTimeout = setTimeout( (function() { 
 			if ( this.input.value.length > 2 ) {
-				xhrRequest( this.input.value, this.xhrSearch, '/ajax/search/' );
+				xhrRequest( this.input.value, this.xhrSearch, defs.xhrUrl );
 			} else {
 				this.wipeResult();
 			}
@@ -124,7 +125,7 @@ waylon.search = ( function( window, document ) {
 		var elemActive = document.activeElement; 
 
 		// make sure we disable default key up/down only when search is open.
-		if( parentsUntilClass( elemActive, 'Search' ) ) {
+		if( parentsUntilClass( elemActive, defs.classWrap ) ) {
 			var nextSibling = elemActive.parentElement.nextElementSibling;
 			var prevSibling = elemActive.parentElement.previousElementSibling;
 			
@@ -186,7 +187,7 @@ waylon.search = ( function( window, document ) {
 	* @method appendResult
 	* @param json {json} 
 	*/
-	var appendResult = function( json ) {
+	IncrementalSearch.prototype.appendResult = function( json ) {
 		var data = JSON.parse( json );
 		var len = data.length;
 		
@@ -223,7 +224,7 @@ waylon.search = ( function( window, document ) {
 	*
 	* @method wipeResult
 	*/
-	var wipeResult = function() {
+	IncrementalSearch.prototype.wipeResult = function() {
 		this.result.innerHTML = '';
 	};
 
