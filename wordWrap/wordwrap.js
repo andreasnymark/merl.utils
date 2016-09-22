@@ -41,8 +41,8 @@ merl.wordwrap = ( function ( window, document ) {
 		if ( data ) {
 			var d = JSON.parse( data );
 			console.log( d );
-			if( d[ 'wrapElem' ] ) t.wrapElem = d[ 'wrapElem' ];
-			if( d[ 'wrapClass' ] ) t.wrapClass = d[ 'wrapClass' ];
+			if( d.wrapElem ) t.wrapElem = d.wrapElem;
+			if( d.wrapClass ) t.wrapClass = d.wrapClass;
 		}		
 		t.wrapWords();
 	};
