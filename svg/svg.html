@@ -4,13 +4,25 @@
 	<meta charset="UTF-8">
 	<title>SVG</title>
 	<style>
+		html {
+			background-color: #2FED91;
+		}
         body {
             padding: 0;
             margin: 0;
+			background-color: #fff;
+			overflow-x: hidden;
         }
         svg {
             vertical-align: bottom;
+			position: absolute;
+			z-index: 0;
+			
         }
+		p {
+			margin: 0;
+			max-width: 200px;
+		}
         .js-canvas {
             width: 100vw;
             height: 90vh;
@@ -20,22 +32,91 @@
         }
         
         @keyframes fadein {
-            0% { opacity: 0 }
+            0% { opacity: 0;  }
             100% { opacity: 1 }
         }
+		@keyframes scaleout {
+            0% { 
+				opacity: .4;
+				transform: translate3d(0, 0, 0);
+			}
+			20% {
+				opacity: .4;
+			}
+            100% { 
+				opacity: 0;
+				transform: translate3d(120px, -120px, 0);
+			}
+        }
+		@keyframes scalein {
+            0% { 
+				opacity: 0;
+				transform: translate3d(0, 0, 0);
+			}
+            100% { 
+				opacity: .4;
+				transform: translate3d(60px, -60px, 0);
+			}
+        }
+		
+		@keyframes scaleup {
+		
+            0% { 
+				transform: translate3d(0, 0, 0);
+			}
+            100% { 
+				transform: translate3d(40px, -40px, 0);
+			}
+        }
+		
+		
+		.scaleOut {
+			animation: scaleout 1200ms cubic-bezier(0, .5, .3, .85) 1 forwards;
+			transform-origin: left bottom;
+			animation-delay: 0;
+		}
+		.scaleIn {
+			animation: scalein 1000ms cubic-bezier(0, .5, .3, .85) 1 forwards;
+			transform-origin: left bottom;
+			animation-delay: 300ms;
+		}
+		.scaleUp {
+			animation: scaleup 1200ms cubic-bezier(0, .5, .3, .85) 1 forwards;
+			transform-origin: left bottom;
+			animation-delay: 100ms;
+		}
+		
         .is-introduced {
             animation: fadein 500ms linear 1 forwards;
         }
         
+		.btnPseudoZoom {
+			position: fixed; top: 0; right: 0;
+		}
+		.logo {
+			position: absolute;
+			bottom: 64%;
+			left: 70%;
+		}
         
     </style>
 </head>
 <body>
-
-    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" class="js-svg"></svg>
+	<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" class="js-svg"></svg>
+<!--
+    <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" class="js-svg">
+    	<g class="">
+			<rect class="r1" x="0" y="120" width="840" height="804" fill="rgba( 218, 215, 212, .5 )"></rect>
+			<rect class="r2" x="0" y="90" width="870" height="754" fill="rgba( 218, 215, 212, .5 )"></rect>
+			<rect class="r3" x="0" y="60" width="900" height="704" fill="rgba( 218, 215, 212, .5 )"></rect>
+    	</g>
+	</svg>
+-->
+   
+   <img src="nymark.svg" alt="Nymark" class="logo" width="672" height="347">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque quis, excepturi aliquid, necessitatibus numquam quam? Molestias fugit numquam ab, maiores nobis quos omnis inventore enim velit tenetur, quasi soluta nam? ipsum dolor sit amet, consectetur adipisicing elit. Numquam minus, delectus, sit rem eum neque ipsum ea sapiente harum ut vero in culpa quas expedita, modi corrupti iure voluptatum blanditiis? ipsum dolor sit amet, consectetur adipisicing elit. Expedita corporis dolorem rerum placeat fugiat ducimus eligendi veniam nostrum ut magni sed, voluptates tenetur mollitia maxime quaerat similique tempore unde! Eos. ipsum dolor sit amet, consectetur adipisicing elit. Animi nam, corrupti delectus adipisci et ratione, debitis fugiat nihil cumque autem iure culpa neque magni vel officia optio repellat consequuntur hic! ipsum dolor sit amet, consectetur adipisicing elit. Eligendi vero est doloremque, qui ipsa. Ex harum sunt ut quaerat, deserunt voluptas commodi odit, quo soluta quibusdam tempora? Debitis, veniam, officiis. ipsum dolor sit amet, consectetur adipisicing elit. Ad sint fugiat ea dignissimos corporis tempore veritatis, praesentium qui eveniet cumque assumenda ab iure aperiam quisquam autem, aliquid quibusdam voluptatum impedit. ipsum dolor sit amet, consectetur adipisicing elit. Voluptate tenetur cumque, molestiae vitae sapiente animi. Asperiores atque repudiandae commodi, sapiente molestiae harum hic est molestias placeat mollitia, facere distinctio veniam! ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, perferendis illo odit ea molestias ipsum sapiente nostrum in libero nisi repellat. Ut molestias optio voluptate nostrum at harum quisquam assumenda. ipsum dolor sit amet, consectetur adipisicing elit. Expedita aspernatur possimus mollitia voluptatum dolorum, natus suscipit, doloribus, laboriosam illo dolores voluptatem. Ut natus voluptatem recusandae laboriosam rerum autem animi ab.</p>
     
-    
-	
+	<button class="btnPseudoZoom" type="button">Pseudo zoom!</button>
 	<script defer type="text/javascript" src="svg.js"></script>
 	<script>
         document.onreadystatechange = function () {
