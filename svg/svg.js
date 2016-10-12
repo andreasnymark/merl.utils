@@ -13,11 +13,10 @@ merl.svg = ( function( window, document ) {
 	var defs = {
 		selectSVG: '.js-svg',
         ns: 'http://www.w3.org/2000/svg',
-        border: {
-            scale: 0.625,
-            width: 50
-        },
-		bgColor: 'rgb( 218, 215, 212 )'
+		bgColor: 'rgb( 218, 215, 212 )',
+		boundary: {
+			narrow: 800
+		}
 	};
 	
 	
@@ -39,38 +38,15 @@ merl.svg = ( function( window, document ) {
 		var s = this; // I use initial of contructor
         s.elem = elem;
 		s.color = color || defs.bgColor;
-        s.objects = [];
         s.rects = [];
-        s.level = 3;
-        
-        s.height = 0;
-        s.height = 0;
-        s.x = 0;
-        s.y = 0;
-		
 		s.running = false;
-        
 
-		
-//		var r1 = createRectangle( 0, 60, ( docSize.width *.75 ), docSize.height, s.color );
-//		var r2 = createRectangle( -30, 90, ( docSize.width * .75 ), docSize.height, s.color );
-//		var r3 = createRectangle( -120, 180, ( docSize.width *.75 ), docSize.height, s.color );
-		
-//		s.rects.push( r1, r2, r3 );
-		
-		
-		for ( var i=0; i<3; i++ ) {
-			
+		for ( var i = 0; i < 3; i++ ) {
 			s.rects.push( createRectangle( 0, 60, ( docSize.width ), docSize.height, s.color ) )
-			
 			s.elem.appendChild( s.rects[ i ] );	
 		}
 		
-		
-		
-        
         s.sizeRectangles();
-        
 	};
 	
 	
@@ -91,48 +67,7 @@ merl.svg = ( function( window, document ) {
 		s.resetRects();
 	};
     
-	
-	/*
-	* 
-	*
-	* @method resize
-	*/
-	SVG.prototype.pseudoZoom = function() {
-		var s = this;
-		
-		for ( var i=0, len = s.rects.length; i<len; i++ ) {
-			// console.log( i );
-			// s.rects[ i ].setAttribute( 'transform', 'scale( 1.2 )' );
-			s.rects[ 0 ].classList.add( 'scaleOut' );
-			s.rects[ 1 ].classList.add( 'scaleUp' );
-			//s.rects[ 2 ].classList.add( 'scaleIn' );
-			
-			
-		}
-		
-		
-		
-		var t = setTimeout( (function() {
-			var s = this;
-			for ( var i=0, len = s.rects.length; i<len; i++ ) {
-				s.rects[ 0 ].classList.remove( 'scaleOut' );
-				s.rects[ 1 ].classList.remove( 'scaleUp' );
-				//s.rects[ 2 ].classList.remove( 'scaleIn' );
 
-
-			}
-			
-			
-		}).bind( this ), 2500 );
-		
-		
-		
-        // s.elem.setAttribute( 'trans', docSize.height );
-        
-        
-	};
-	
-	
 	
 	/*
 	* 
@@ -140,29 +75,40 @@ merl.svg = ( function( window, document ) {
 	* @method resize
 	*/
 	SVG.prototype.resetRects = function() {
-		var s = this;
-		s.rects[ 0 ].setAttributeNS( null, 'x', -docSize.offScreen-100 );
-		s.rects[ 0 ].setAttributeNS( null, 'y', '160' );
+		var s = this,
+			rect0X = -docSize.offScreen - 100, 
+			rect0Y = 160,
+			rect1X = -docSize.offScreen - 40, 
+			rect1Y = 100,
+			rect2X = -docSize.offScreen, 
+			rect2Y = 60;
+		
+		if ( docSize.width < defs.boundary.narrow ) {
+			
+			rect0X = -docSize.offScreen - 45;
+			rect0Y = 105;
+			rect1X = -docSize.offScreen - 15;
+			rect1Y = 75;
+			rect2X = -docSize.offScreen;
+			rect2Y = 60;
+		} 
+		
+		s.rects[ 0 ].setAttributeNS( null, 'x', rect0X );
+		s.rects[ 0 ].setAttributeNS( null, 'y', rect0Y );
 		s.rects[ 0 ].setAttributeNS( null, 'width', docSize.width );
 		s.rects[ 0 ].setAttributeNS( null, 'opacity', '0' );
 		
-
-		s.rects[ 1 ].setAttributeNS( null, 'x', -docSize.offScreen-40 );
-		s.rects[ 1 ].setAttributeNS( null, 'y', '100' );
+		s.rects[ 1 ].setAttributeNS( null, 'x', rect1X );
+		s.rects[ 1 ].setAttributeNS( null, 'y', rect1Y );
 		s.rects[ 1 ].setAttributeNS( null, 'width', docSize.width );
 		s.rects[ 1 ].setAttributeNS( null, 'opacity', '.4' );
 		
-		s.rects[ 2 ].setAttributeNS( null, 'x', -docSize.offScreen );
+		s.rects[ 2 ].setAttributeNS( null, 'x', rect2X );
+		s.rects[ 2 ].setAttributeNS( null, 'y', rect2Y );
 		s.rects[ 2 ].setAttributeNS( null, 'width', docSize.width );
 		s.rects[ 2 ].setAttributeNS( null, 'opacity', '.4' );
 			
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	/*
@@ -214,38 +160,73 @@ merl.svg = ( function( window, document ) {
 	
 	
 	
+
+    
+    /*
+	* Init
+	* 
+	* @method init
+	* @param options {Object} Object
+	*/
+    var sizeDoc = function() {
+		var offScreen = 0.18,
+			obj;
+		
+		if ( document.body.clientWidth < defs.boundary.narrow ) offScreen = 0.05;
+        
+		obj = {
+            width: document.body.clientWidth,
+            height: document.body.clientHeight,
+			offScreen: Math.floor( document.body.clientWidth * offScreen )
+        };
+        
+        if( obj.height < window.innerHeight ) {
+            obj.height = window.innerHeight;
+        } 
+        
+        return obj;
+    }
+    
 	
 	
 	
 	
     /*
+	* Init
 	* 
-	*
-	* @method resize
+	* @method init
+	* @param options {Object} Object
+	*/	
+	var createRectangle = function( x, y, width, height, color, cls ) {
+        var rect = document.createElementNS( defs.ns, 'rect' );
+        rect.setAttributeNS( null, 'x', x );
+        rect.setAttributeNS( null, 'y', y );
+        rect.setAttributeNS( null, 'width', width );
+        rect.setAttributeNS( null, 'height', height );
+        rect.setAttributeNS( null, 'fill', color );
+
+		if( cls && typeof cls === 'string' ) rect.classList.add( cls );
+		
+		return rect;
+	};
+	
+	
+	
+	
+	
+    /*
+	* Init
+	* 
+	* @method init
+	* @param options {Object} Object
 	*/
-//	SVG.prototype.addRectangle = function( x, y, width, height ) {
-//		var s = this;
-//        var rect = document.createElementNS( defs.ns, 'rect' );
-//        var fromEdge = fromEdge || defs.border.width;
-//        
-//        rect.setAttributeNS( null, 'x', x );
-//        rect.setAttributeNS( null, 'y', y );
-//        rect.setAttributeNS( null, 'width', width );
-//        rect.setAttributeNS( null, 'height', height );
-//        rect.setAttributeNS( null, 'fill', s.color );
-//        rect.classList.add( 'is-introduced' );
-//		
-//		rect.setAttributeNS( null, 'transform', 'scale(.8)' );
-//		
-//        
-//		// console.log( rect );
-//		
-//        // s.objects.push( s.elem.appendChild( rect ));
-//		
-//		
-//		return rect;
-//		
-//	};
+	var resizeRectangles = function () {
+		docSize = sizeDoc();
+		for ( var i = 0, len = instances.length; i < len; i++ ) {
+			instances[ i ].sizeRectangles();
+		}
+	};
+	
 	
 	
 	
@@ -262,27 +243,20 @@ merl.svg = ( function( window, document ) {
 			}
 		}
         
-        // Set document size
-//        docSize.height = document.body.clientHeight;
-//        docSize.width = document.body.clientWidth;
-        
-        docSize = sizeDoc();
-		
 		var elems = document.querySelectorAll( defs.selectSVG );
 		
 		instances = [];
+        docSize = sizeDoc();
 		
 		for ( var i = 0, len = elems.length; i<len; i++ ) {
 			instances.push( new SVG( elems[ i ] ) );
+			instances[ i ].resetRects();
 		}
-		
-		instances[0].resetRects();
 
 		window.removeEventListener( 'resize', resizeRectangles );
 		window.addEventListener( 'resize', resizeRectangles );
-		// window.addEventListener( 'resize', ( function() { console.log( 'Resize!' ) } ) );
-
 		
+		// temp
 		document.querySelector( '.btnPseudoZoom' ).addEventListener( 'click', function() {
 			console.log( 'Pseudo zoom!' );
 			instances[ 0 ].pseudoZoomIn();
@@ -291,64 +265,6 @@ merl.svg = ( function( window, document ) {
 	};
 	
 
-    
-    /*
-	* Init
-	* 
-	* @method init
-	* @param options {Object} Object
-	*/
-    var sizeDoc = function() {
-        var obj = {
-            width: document.body.clientWidth,
-            height: document.body.clientHeight,
-			offScreen: document.body.clientWidth * 0.18
-        };
-        
-        if( obj.height < window.innerHeight ) {
-            obj.height = window.innerHeight;
-        } 
-        
-        return obj;
-    }
-    
-	
-	
-	
-	
-	
-	
-	var createRectangle = function( x, y, width, height, color, cls ) {
-		// var s = this;
-        var rect = document.createElementNS( defs.ns, 'rect' );
-        var fromEdge = fromEdge || defs.border.width;
-        
-        rect.setAttributeNS( null, 'x', x );
-        rect.setAttributeNS( null, 'y', y );
-        rect.setAttributeNS( null, 'width', width );
-        rect.setAttributeNS( null, 'height', height );
-        rect.setAttributeNS( null, 'fill', color );
-
-		if( cls && typeof cls === 'string' ) rect.classList.add( cls );
-		
-		return rect;
-	};
-	
-	
-	
-	
-	
-	var resizeRectangles = function () {
-		docSize = sizeDoc();
-		for ( var i = 0, len = instances.length; i < len; i++ ) {
-			instances[ i ].sizeRectangles();
-		}
-	};
-	
-	
-	
-	
-	
 	
 	
     

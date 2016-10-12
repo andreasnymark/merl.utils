@@ -58,7 +58,6 @@
 				transform: translate3d(60px, -60px, 0);
 			}
         }
-		
 		@keyframes scaleup {
 		
             0% { 
@@ -69,6 +68,47 @@
 			}
         }
 		
+		
+		
+		
+		
+		
+		
+		@media all and ( max-width: 800px ) {
+			@keyframes scaleout {
+            0% { 
+				opacity: .4;
+				transform: translate3d(0, 0, 0);
+			}
+			20% {
+				opacity: .4;
+			}
+            100% { 
+				opacity: 0;
+				transform: translate3d(40px, -40px, 0);
+			}
+        }
+		@keyframes scalein {
+            0% { 
+				opacity: 0;
+				transform: translate3d(0, 0, 0);
+			}
+            100% { 
+				opacity: .4;
+				transform: translate3d(30px, -30px, 0);
+			}
+        }
+		@keyframes scaleup {
+		
+            0% { 
+				transform: translate3d(0, 0, 0);
+			}
+            100% { 
+				transform: translate3d(15px, -15px, 0);
+			}
+        }
+		
+		}
 		
 		.scaleOut {
 			animation: scaleout 1200ms cubic-bezier(0, .5, .3, .85) 1 forwards;
@@ -102,16 +142,7 @@
     </style>
 </head>
 <body>
-	<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" class="js-svg"></svg>
-<!--
-    <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" class="js-svg">
-    	<g class="">
-			<rect class="r1" x="0" y="120" width="840" height="804" fill="rgba( 218, 215, 212, .5 )"></rect>
-			<rect class="r2" x="0" y="90" width="870" height="754" fill="rgba( 218, 215, 212, .5 )"></rect>
-			<rect class="r3" x="0" y="60" width="900" height="704" fill="rgba( 218, 215, 212, .5 )"></rect>
-    	</g>
-	</svg>
--->
+	<svg width="1000" height="700" viewBox="0 0 1000 700" class="js-svg"></svg>
    
    <img src="nymark.svg" alt="Nymark" class="logo" width="672" height="347">
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque quis, excepturi aliquid, necessitatibus numquam quam? Molestias fugit numquam ab, maiores nobis quos omnis inventore enim velit tenetur, quasi soluta nam? ipsum dolor sit amet, consectetur adipisicing elit. Numquam minus, delectus, sit rem eum neque ipsum ea sapiente harum ut vero in culpa quas expedita, modi corrupti iure voluptatum blanditiis? ipsum dolor sit amet, consectetur adipisicing elit. Expedita corporis dolorem rerum placeat fugiat ducimus eligendi veniam nostrum ut magni sed, voluptates tenetur mollitia maxime quaerat similique tempore unde! Eos. ipsum dolor sit amet, consectetur adipisicing elit. Animi nam, corrupti delectus adipisci et ratione, debitis fugiat nihil cumque autem iure culpa neque magni vel officia optio repellat consequuntur hic! ipsum dolor sit amet, consectetur adipisicing elit. Eligendi vero est doloremque, qui ipsa. Ex harum sunt ut quaerat, deserunt voluptas commodi odit, quo soluta quibusdam tempora? Debitis, veniam, officiis. ipsum dolor sit amet, consectetur adipisicing elit. Ad sint fugiat ea dignissimos corporis tempore veritatis, praesentium qui eveniet cumque assumenda ab iure aperiam quisquam autem, aliquid quibusdam voluptatum impedit. ipsum dolor sit amet, consectetur adipisicing elit. Voluptate tenetur cumque, molestiae vitae sapiente animi. Asperiores atque repudiandae commodi, sapiente molestiae harum hic est molestias placeat mollitia, facere distinctio veniam! ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, perferendis illo odit ea molestias ipsum sapiente nostrum in libero nisi repellat. Ut molestias optio voluptate nostrum at harum quisquam assumenda. ipsum dolor sit amet, consectetur adipisicing elit. Expedita aspernatur possimus mollitia voluptatum dolorum, natus suscipit, doloribus, laboriosam illo dolores voluptatem. Ut natus voluptatem recusandae laboriosam rerum autem animi ab.</p>
