@@ -1,8 +1,9 @@
 /*
 * Wordwrap.js
 *
-* Wordwrap is a tiny javascript to wrap words, seperated 
-* with a blank space, with an element.
+* Wordwrap is a tiny javascript to wrap words inside an element with another 
+  element. Class/style can be added to each new wrapper. Existing elements 
+  will be kept as is, but class/style will be added.
 *  
 * Copyright 2016, Andreas Nymark
 * Licensed under a MIT license
@@ -16,8 +17,10 @@ merl.wordwrap = ( function ( window, document ) {
 
 	var defs = {
 		selector: '.js-wordwrap',
+		delay: '', // in ms, without ms
 		wrapElem: 'span',
-		wrapClass: ''
+		wrapClass: '',
+		wrapStyle: ''
 	};
 	
 	
@@ -37,75 +40,124 @@ merl.wordwrap = ( function ( window, document ) {
 		t.text = t.elem.innerText;
 		t.wrapElem = defs.wrapElem;
 		t.wrapClass = defs.wrapClass;
+		t.wrapStyle = defs.wrapStyle;
+		t.delay = defs.delay;
 
 		if ( data ) {
 			var d = JSON.parse( data );
-			console.log( d );
 			if( d.wrapElem ) t.wrapElem = d.wrapElem;
 			if( d.wrapClass ) t.wrapClass = d.wrapClass;
-		}		
+			if( d.wrapStyle ) t.wrapStyle = d.wrapStyle;
+			if( d.delay ) t.delay = d.delay;
+		}
+		
 		t.wrapWords();
 	};
 	
 	
-	/*
-	* 
-	*
-	* @method wrapWords
-	*/
-	Wordwrap.prototype.wrapWords = function () {
-		var t = this;
-		t.wrapTextInElem();
-		if( t.wrapClass !== '' ) t.setClass( t.elem.querySelectorAll( t.wrapElem ), t.wrapClass );
+	Wordwrap.prototype = {
+
+		/*
+		* @method wrapWords
+		*/
+		wrapWords: function () {
+			var t = this;
+			t.wrapTextInElem();
+			if( t.wrapClass !== '' ) t.setClass( t.elem.querySelectorAll( t.wrapElem ), t.wrapClass );
+		},
+		
+		
+		/*
+		* Add content to markup. If class/style, set on each child element.
+		*
+		* @method updateContent
+		*/	
+		updateContent: function () {
+			var t = this,
+				children = t.elem.children;
+
+			t.elem.innerHTML = t.content;
+			if ( t.delay ) t.setDelay( children, t.delay );		
+			if ( t.wrapStyle ) t.setStyle( children, t.wrapStyle );		
+			if ( t.wrapClass ) t.setClass( children, t.wrapClass );
+		},
+		
+			
+		/*
+		* Finds all wrapper elements and adds a class to each.
+		*
+		* @method setClass
+		* @param wrapElems { Object } List of elements
+		* @param wrapClass { String } Class added
+		*/	
+		setClass: function ( elems, cls ) {
+			for ( var i = 0, len = elems.length; i < len; i++ ) {
+				elems[ i ].classList.add( cls );
+			}
+		},
+		
+		
+		/*
+		* Finds all wrapper elements and adds a style attribtue to each.
+		*
+		* @method setStyle
+		* @param wrapElems { Object } List of elements
+		* @param wrapStyle { String } Style added
+		*/	
+		setStyle: function ( elems, wrapStyle ) {
+			for ( var i = 0, len = elems.length; i < len; i++ ) {
+				var elem = elems[ i ],
+					currStyles = elem.getAttribute( 'style' ) || '';
+				
+				elem.setAttribute( 'style', currStyles + wrapStyle );
+			}
+		},
+		
+		
+		/*
+		* Finds all wrapper elements and adds a style attribtue to each.
+		*
+		* @method setStyle
+		* @param wrapElems { Object } List of elements
+		* @param wrapStyle { String } Style added
+		*/	
+		setDelay: function ( elems, delay ) {
+			for ( var i = 0, len = elems.length; i < len; i++ ) {
+				
+				var elem = elems[ i ],
+					currStyles = elem.getAttribute( 'style' ) || '';
+				elem.setAttribute( 'style', 'animation-delay: ' + ( i * delay ) + 'ms;' );
+			}
+		},
+		
+		
+		/*
+		* Wraps each word in an element.
+		*
+		* @method wrapTextInElement
+		* @param elem { Object } Element.
+		*/
+		wrapTextInElem: function ( elem ) {
+			var t = this,
+				re,
+				arr = t.text.split( ' ' ),
+				obj = removeDuplicates( arr );
+
+			for ( var key in obj ) {
+				var word = obj[ key ],
+					re;
+
+				word = word.replace( /(\r\n|\n|\r)/gm, '' );
+				re = new RegExp( '(^|\\b)' + word + '($|\\s)', 'g' );
+				t.content = t.content.replace( re, '<' + t.wrapElem + '>' + '\$&' + '</' + t.wrapElem + '>' );
+			}
+			t.updateContent();
+		},
+
+		
 	};
-	
     
-    /*
-	* Add content to markup.
-	*
-	* @method updateContent
-	*/	
-	Wordwrap.prototype.updateContent = function () {
-		var t = this;
-		t.elem.innerHTML = t.content;
-	};
 		
-		
-		
-	/*
-	* Finds all wrapper elements and adds a class to each.
-	*
-	* @method setClass
-	* @param wrapElems { Object } List of elements
-	* @param wrapClass { String } Class added
-	*/	
-	Wordwrap.prototype.setClass = function ( wrapElems, wrapClass ) {
-		for ( var i = 0, len = wrapElems.length; i < len; i++ ) {
-			wrapElems[ i ].classList.add( wrapClass );
-		}
-	};
-	
-
-	/*
-	* Wraps each word in an element.
-	*
-	* @method wrapTextInElement
-	* @param elem { Object } Element.
-	*/
-	Wordwrap.prototype.wrapTextInElem = function ( elem ) {
-		var t = this;
-		var arr = t.text.split( ' ' );
-
-		arr = removeDuplicates( arr );
-
-		for ( var key in arr ) {
-			t.content = t.content.replace( new RegExp( arr[ key ] , 'g' ) , 
-				'<' + t.wrapElem + '>' + '\$&' + '</' + t.wrapElem + '>' );
-		}
-		t.updateContent();
-	};
-	
-
 	/*
 	* Removes duplicates in an array..
 	*
@@ -113,16 +165,18 @@ merl.wordwrap = ( function ( window, document ) {
 	* @param a { Array } Array of words.
 	* @return { Object }
 	*/
-	var removeDuplicates = function ( a ) {
-		var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
-		return a.filter( function ( item ) {
-			var type = typeof item;
-			if( type in prims )
-				return prims[ type ].hasOwnProperty( item ) ? false : ( prims[ type ][ item ] = true );
-			else
-				return objs.indexOf( item ) >= 0 ? false : objs.push( item );
-		});
+	var removeDuplicates = function ( arr ) {
+		var obj = {};
+		for ( var i = 0; i < arr.length; i++ ) {
+			obj[ arr[ i ]] = true;
+		}
+		arr = [];
+		for ( var key in obj ) {
+			arr.push( key );
+		}
+		return arr;
 	};
+	
 	
 	
 	/*
@@ -139,7 +193,7 @@ merl.wordwrap = ( function ( window, document ) {
 		}
 		
 		var elems = document.querySelectorAll( defs.selector );
-		
+
 		instances = [];
 		for ( var i = 0, len = elems.length; i < len; i++ ) {
 			instances.push( new Wordwrap( elems[ i ] ));
