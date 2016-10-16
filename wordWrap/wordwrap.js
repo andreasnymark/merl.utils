@@ -153,8 +153,6 @@ merl.wordwrap = ( function ( window, document ) {
 			}
 			t.updateContent();
 		},
-
-		
 	};
     
 		
