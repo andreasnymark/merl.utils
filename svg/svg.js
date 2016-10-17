@@ -133,6 +133,9 @@ merl.svg = ( function ( window, document ) {
 					s.rects[ 1 ].classList.remove( defs.cls.up );
 					s.rects[ 2 ].classList.remove( defs.cls.out );
 					s.running = false;
+					
+					//temp
+					document.querySelector( '.Outline-content' ).classList.remove( 'contentOut' );
 				}
 			} ).bind( this ), 1600 );
 		}
@@ -236,10 +239,26 @@ merl.svg = ( function ( window, document ) {
 		window.addEventListener( 'resize', resizeRectangles );
 		
 		// temp
-		document.querySelector( '.btnPseudoZoom' ).addEventListener( 'click', function () {
-			console.log( 'Pseudo zoom!' );
-			instances[ 0 ].pseudoZoomIn();
-		});
+//		document.querySelector( '.btnPseudoZoom' ).addEventListener( 'click', function () {
+//			console.log( 'Pseudo zoom!' );
+//			instances[ 0 ].pseudoZoomIn();
+//			
+//			document.querySelector( '.Outline-content' ).classList.add( 'contentOut' );
+//			
+//		});
+		
+		var navi = document.querySelectorAll( '.nav' );
+		for ( var i = 0, len = navi.length; i < len; i++ ) {
+			navi[ i ].addEventListener( 'click', function ( evt ) {
+				instances[ 0 ].pseudoZoomIn();
+				document.querySelector( '.Outline-content' ).classList.add( 'contentOut' );
+				
+				var t = setTimeout(function() {
+					window.scroll(0,0);
+				}, 1400 );
+				evt.preventDefault();
+			});
+		}
 		
 	};
 	
