@@ -48,44 +48,47 @@ merl.asyncPage = ( function( window, document ) {
 	};
 	
 	
-	/*
-	* Set triggers based on whats defs.
-	*
-	* @method setTriggers
-	*/
-	AsyncPage.prototype.setTriggers = function() {
-		var t = this;
-		var triggers = t.newTriggers || t.initTriggers;
-		for ( var i = 0, len = triggers.length; i<len; i++ ) {
-			triggers[ i ].addEventListener( 'click', getContent.bind( t ) );
-		}
-	};
+	AsyncPage.prototype = {
+		
+		/*
+		* Set triggers based on whats defs.
+		*
+		* @method setTriggers
+		*/
+		setTriggers: function() {
+			var t = this;
+			var triggers = t.newTriggers || t.initTriggers;
+			for ( var i = 0, len = triggers.length; i<len; i++ ) {
+				triggers[ i ].addEventListener( 'click', getContent.bind( t ) );
+			}
+		},
+
+
+		/*
+		* XMLHTTPRequest
+		*
+		* @method xhRequest
+		* @param xhr {XMLHttpRequest}
+		* @param url {String} URL to new page
+		*/
+		xhRequest: function( xhr, url ) {
+			xhr.open( 'GET', url, true );
+			xhr.setRequestHeader( 'X-Requested-With', 'XMLHttpRequest' );
+			xhr.send();
+		},
 	
 	
-	/*
-	* XMLHTTPRequest
-	*
-	* @method xhRequest
-	* @param xhr {XMLHttpRequest}
-	* @param url {String} URL to new page
-	*/
-	AsyncPage.prototype.xhRequest = function( xhr, url ) {
-		xhr.open( 'GET', url, true );
-		xhr.setRequestHeader( 'X-Requested-With', 'XMLHttpRequest' );
-		xhr.send();
-	};
-	
-	
-	/*
-	* Adds new page history
-	*
-	* @method addHistory
-	*/
-	AsyncPage.prototype.addHistory = function() {
-		if ( history.pushState ) {
-			window.history.pushState( { url: this.url }, this.title, this.url );
-		}
-	};
+		/*
+		* Adds new page history
+		*
+		* @method addHistory
+		*/
+		addHistory: function() {
+			if ( history.pushState ) {
+				window.history.pushState( { url: this.url }, this.title, this.url );
+			}
+		},
+	}
 	
 	
 	/*
@@ -192,6 +195,25 @@ merl.asyncPage = ( function( window, document ) {
 	
 	
 	/*
+	*
+	*/
+	var extractDomain = function( url ) {
+		var domain;
+		
+		if( url.indexOf ( '://' ) > -1 ) {
+			domain = url.split( '/' )[2];
+		} else {
+			domain = url.split('/')[0];
+		}
+
+		//find & remove port number
+		domain = domain.split(':')[0];
+
+		return domain;
+	};
+
+
+	/*
 	* Init
 	* 
 	* @method init
@@ -218,26 +240,6 @@ merl.asyncPage = ( function( window, document ) {
 	};
 	
 	
-	/*
-	*
-	*/
-	var extractDomain = function( url ) {
-		var domain;
-		
-		if( url.indexOf ( '://' ) > -1 ) {
-			domain = url.split( '/' )[2];
-		} else {
-			domain = url.split('/')[0];
-		}
-
-		//find & remove port number
-		domain = domain.split(':')[0];
-
-		return domain;
-	};
-
-	
-   
 	return {
 		init: init
 	};
