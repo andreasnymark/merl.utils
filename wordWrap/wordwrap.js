@@ -148,7 +148,7 @@ merl.wordwrap = ( function ( window, document ) {
 					re;
 
 				word = word.replace( /(\r\n|\n|\r)/gm, '' );
-				re = new RegExp( '(^|\\b)' + word + '($|\\s|\\?)', 'g' ); // http://www.regular-expressions.info/anchors.html
+				re = new RegExp( '(^|\\b)' + word + '($|\\s|\\?)', 'gi' ); // http://www.regular-expressions.info/anchors.html
 				t.content = t.content.replace( re, '<' + t.wrapElem + '>' + '\$&' + '</' + t.wrapElem + '>' );
 			}
 			t.updateContent();
