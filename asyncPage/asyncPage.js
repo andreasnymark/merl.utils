@@ -222,7 +222,7 @@ merl.asyncPage = ( function( window, document ) {
 	var init = function( options ) {
 		if( options ) {
 			for( var o in options ) { 
-				defaults[ o ] = options[ o ]; 
+				defs[ o ] = options[ o ]; 
 			}
 		}
 		
