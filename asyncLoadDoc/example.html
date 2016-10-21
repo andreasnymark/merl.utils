@@ -8,7 +8,7 @@
 			0% { opacity: 1 }
 			100% { opacity: 0 }
 		}
-		.js-asyncPage {
+		.js-asyncLoadDoc {
 			transition: opacity 250ms ease-out;
 		}
 		.anim {
@@ -24,7 +24,7 @@
 	<a href="example.html">Example</a>
 	<a href="about.html">About us</a>
 	<a href="contact.html">Contact us</a>
-	<div class="js-asyncPage" aria-live="polite">
+	<div class="js-asyncLoadDoc" aria-live="polite">
 
 		<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime natus nostrum asperiores quos doloremque dicta repudiandae vero, suscipit labore. Voluptas dicta nulla, nisi aut ratione, ad neque aspernatur nostrum ex.</h1>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
@@ -52,11 +52,11 @@
 	
 	
 	
-	<script src="asyncPage.js"></script>
+	<script src="asyncLoadDoc.js"></script>
 	<script>
 		document.onreadystatechange = function () {
 			if ( document.readyState == 'complete' ) {
-				merl.asyncPage.init();
+				merl.asyncLoadDoc.init();
 			}
 		} 
 	</script>
