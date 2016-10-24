@@ -3,8 +3,8 @@
 * @description Asynchronous load new document to replace current content in element.
 * Sets a class on element when content is exiting. Replace content. Sets new class
 * for content when entering. Listens to transitionend.
-* @author: Andreas Nymark <andreas@nymark.me>
-* @license: MIT
+* @author Andreas Nymark <andreas@nymark.me>
+* @license MIT
 *
 */
 var merl = merl || {};
@@ -14,15 +14,14 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 
 
 	var defs = {
-		selectAsyncPage: '.js-asyncLoadDoc',
-		selectTrigger: 'a[href]',
-		classTransition: 'anim',
-		classExit: 'is-exiting',
-		classEnter: 'is-entering',
-	};
-
-
-	var instances = [],
+			selectAsyncPage: '.js-asyncLoadDoc',
+			selectTrigger: 'a[href]',
+			classTransition: 'anim',
+			classExit: 'is-exiting',
+			classEnter: 'is-entering',
+		},
+		asyncing = false,
+		instances = [],
 		currInstance = null,
 		initLocation = document.location.href,
 		origin = null,
@@ -71,6 +70,34 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 
 
 		/**
+		* This is bind from AsyncPage
+		*
+		* @method getContent
+		* @param evt { XMLHTTPRequestObject }
+		*/
+		getContent: function ( evt ) {
+			if ( !asyncing ) {
+				asyncing = true;
+				var domain = extractDomain( evt.target.href );
+				if( domain === origin ) {
+					var t = this;
+					currInstance = t;
+					t.url = evt.target.href;
+					t.statePop = false;
+
+					if( eventBeforeChange ) {
+						t.elem.classList.remove( defs.classEnter );
+						t.elem.classList.add( defs.classExit );
+					} else {
+						t.xhRequest( t.xhrPage, t.url );
+					}
+					evt.preventDefault();
+				}
+			}
+		},
+
+
+		/**
 		* XMLHTTPRequest
 		*
 		* @method xhRequest
@@ -109,6 +136,7 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 			}
 			if( t.elem.classList.contains( defs.classEnter ) ) {
 				t.elem.classList.remove( defs.classEnter );
+				asyncing = false;
 			}
 		},
 
@@ -139,42 +167,7 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 				if( !t.statePop ) t.addHistory();
 			}
 		},
-
-
-
-		/**
-		* This is bind from AsyncPage
-		*
-		* @method getContent
-		* @param evt { XMLHTTPRequestObject }
-		*/
-		getContent: function ( evt ) {
-			var domain = extractDomain( evt.target.href );
-			if( domain === origin ) {
-				var t = this;
-				currInstance = t;
-				t.url = evt.target.href;
-				t.statePop = false;
-
-				if( eventBeforeChange ) {
-	//				t.elem.classList.add( defs.classTransition );
-					t.elem.classList.remove( defs.classEnter );
-					t.elem.classList.add( defs.classExit );
-				} else {
-					t.xhRequest( t.xhrPage, t.url );
-				}
-				evt.preventDefault();
-			}
-		},
 	};
-
-
-
-
-
-
-
-
 
 
 	/**
@@ -255,15 +248,18 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 
 		var elemsAsyncPage = document.querySelectorAll( defs.selectAsyncPage );
 
-		instances = [];
+		if ( elemsAsyncPage.length > 0 ) {
+			instances = [];
 
-		for ( var i = 0, len = elemsAsyncPage.length; i<len; i++ ) {
-			instances.push( new AsyncPage( elemsAsyncPage[ i ] ) );
+			for ( var i = 0, len = elemsAsyncPage.length; i<len; i++ ) {
+				instances.push( new AsyncPage( elemsAsyncPage[ i ] ) );
+			}
+
+			window.removeEventListener( 'popstate', statePop );
+			window.addEventListener( 'popstate', statePop );
+
+			origin = extractDomain( document.location.origin );
 		}
-
-		window.removeEventListener( 'popstate', statePop );
-		window.addEventListener( 'popstate', statePop );
-		origin = extractDomain( document.location.origin );
 	};
 
 
