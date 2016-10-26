@@ -62,15 +62,17 @@ merl.utils = ( function ( window, document ) {
 
 
 
-	/*
-	* Traverse DOM upwards until class
-	*
-	* @method parentUntilClass
-	* @param elem {Object} Element to start from
-	* @param cls {String} Class name where to stop
-	* @return {Object} DOM object
-	*/
+	/**
+	 * Traverse DOM upwards until class
+	 *
+	 * @method parentUntilClass
+	 * @param {HTMLElement} elem - Element to start from
+	 * @param {String} cls - Class name where to stop
+	 * @return {HTMLElement} elem
+	**/
 	var parentUntilClass = function ( elem, cls ) {
+		if ( /^(\.|#)/.test( cls ) ) cls = cls.substr( 1 );
+
 		// if ( typeof elem === Object && typeof cls === String ) {
 			while ( elem.parentNode ) {
 				elem = elem.parentNode;
@@ -85,10 +87,36 @@ merl.utils = ( function ( window, document ) {
 
 
 
+
+	var CustomEvent = function ( event, params ) {
+		params = params || { bubbles: false, cancelable: false, detail: undefined };
+		var evt = document.createEvent( 'CustomEvent' );
+		evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+		return evt;
+	};
+
+
+
+
+
+
+
+
+	var init = function () {
+		if ( typeof window.CustomEvent !== "function" ) {
+			CustomEvent.prototype = window.Event.prototype;
+			window.CustomEvent = CustomEvent;
+		}
+	};
+
+
+
+
 	return {
 		hasClass: hasClass,
 		addClass: addClass,
 		removeClass: removeClass,
 		parentUntilClass: parentUntilClass,
+		init: init,
 	};
 }( window, document ));
