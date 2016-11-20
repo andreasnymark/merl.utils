@@ -18,6 +18,7 @@ merl.scrollToggleClass = ( function ( window, document ) {
 			selectBlock: '.block',
 			classInView: 'is-inView',
 			classOutView: 'is-outOfView',
+			minWidth: 600,
         };
 
 
@@ -32,12 +33,14 @@ merl.scrollToggleClass = ( function ( window, document ) {
 				defs[ o ] = options[ o ];
 			}
 		}
+
 		var items = document.querySelectorAll( defs.selector ),
 			len = items.length;
 
-		if ( len > 0 ) {
-			measureWinSize();
+        measureWinSize();
+		instances = [];
 
+		if ( len > 0 && winSize.width > defs.minWidth ) {
 			for ( var i = 0; i < len; i++ ) {
 				instances.push( new STC( items[ i ] ) );
 			}
@@ -137,11 +140,12 @@ merl.scrollToggleClass = ( function ( window, document ) {
 
     /**
      * @method setWinSize
-     * @return {Object} 
+     * @return {Object}
     **/
 	var setWinSize = function () {
 		return {
 			height: ( window.innerHeight || document.documentElement.clientHeight ),
+            width: ( window.innerWidth || document.documentElement.clientWidth ),
 		};
 	};
 
