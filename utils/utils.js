@@ -1,3 +1,10 @@
+/**
+ * A collection of utility functions.
+ *
+ * @author Andreas Nymark <andreas@nymark.me>
+ * @license MIT
+**/
+
 var merl = merl || {};
 
 merl.utils = ( function ( window, document ) {
@@ -7,11 +14,11 @@ merl.utils = ( function ( window, document ) {
 	/**
 	 * Check if element already contains class
 	 * @method hasClass
-	 * @param {Object} elem - DOM Element
+	 * @param {HTMLElement} elem - DOM Element
 	 * @param {String} cls - Class name
 	 * @param {Boolean} forceOld - In some cases we need to force old style, even if classlist is supported. E.g. IE and SVG.
 	 * @return {Boolean} bool
-	 */
+	**/
 	var hasClass = function ( elem, cls, forceOld ) {
 		var bool;
 		forceOld = forceOld || false;
@@ -28,10 +35,10 @@ merl.utils = ( function ( window, document ) {
 	/**
 	 * Add class to element
 	 * @method addClass
-	 * @param {Object} elem - DOM Element
+	 * @param {HTMLElement} elem - DOM Element
 	 * @param {String} cls - Class name
 	 * @param {Boolean} forceOld - In some cases we need to force old style, even if classlist is supported. E.g. IE and SVG.
-	 */
+	**/
 	var addClass = function ( elem, cls, forceOld ) {
 		forceOld = forceOld || false;
 		if ( elem.classList && !forceOld ) {
@@ -45,26 +52,23 @@ merl.utils = ( function ( window, document ) {
 	/**
 	 * Remove class from element
 	 * @method removeClass
-	 * @param {Object} elem - DOM Element
+	 * @param {HTMLElement} elem - DOM Element
 	 * @param {String} cls - Class name
-	 * @param {Boolean} forceOld - In some cases we need to force old style, even if classlist is supported. E.g. IE and SVG.
-	 */
+	 * @param {Boolean} forceOld - In some cases we need to force old style, even if classlist is ”supported”. E.g. IE and SVG.
+	**/
 	var removeClass = function ( elem, cls, forceOld ) {
 		forceOld = forceOld || false;
 		if ( elem.classList && !forceOld ) {
 			elem.classList.remove( cls );
 		} else {
-			var re = new RegExp( '\\b' + cls + '\\b', 'g' );
-			elem.className.replace( re, '' );
+			var reg = new RegExp( '\\b' + cls + '\\b', 'g' );
+			elem.className.replace( reg, '' );
 		}
 	};
 
 
-
-
 	/**
 	 * Traverse DOM upwards until class
-	 *
 	 * @method parentUntilClass
 	 * @param {HTMLElement} elem - Element to start from
 	 * @param {String} cls - Class name where to stop
@@ -73,50 +77,59 @@ merl.utils = ( function ( window, document ) {
 	var parentUntilClass = function ( elem, cls ) {
 		if ( /^(\.|#)/.test( cls ) ) cls = cls.substr( 1 );
 
-		// if ( typeof elem === Object && typeof cls === String ) {
-			while ( elem.parentNode ) {
-				elem = elem.parentNode;
-				if ( elem.nodeType === 1 && hasClass( elem, cls ) ) {
-					return elem;
-				}
+		while ( elem.parentNode ) {
+			elem = elem.parentNode;
+			if ( elem.nodeType === 1 && hasClass( elem, cls ) ) {
+				return elem;
 			}
-			return null;
-		// }
+		}
+		return null;
 	};
 
 
+	/**
+	 * Return supported event for animationend.
+	 * @method evtAnimEnd
+	 * @return {String} anims - supported event.
+	**/
+	var evtAnimEnd = function () {
+  		var elem = document.createElement( 'div' ),
+			anims = {
+				'animation': 'animationend',
+				'OAnimation': 'oAnimationEnd',
+				'MSAnimation': 'MSAnimationEnd',
+				'MozAnimation': 'animationend',
+				'WebkitAnimation': 'webkitAnimationEnd',
+			};
 
-
-
-	var CustomEvent = function ( event, params ) {
-		params = params || { bubbles: false, cancelable: false, detail: undefined };
-		var evt = document.createEvent( 'CustomEvent' );
-		evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-		return evt;
-	};
-
-
-
-
-
-
-
-
-	var init = function () {
-		if ( typeof window.CustomEvent !== "function" ) {
-			CustomEvent.prototype = window.Event.prototype;
-			window.CustomEvent = CustomEvent;
+		for ( var anim in anims ) {
+			if ( elem.style[ anim ] !== undefined ) {
+				return anims[ anim ];
+			}
 		}
 	};
 
 
+	/**
+	 * Add styles to element
+	 * @method css
+	 * @param {HTMLElement} elem - DOM Element
+	 * @param {Object} styles - Styles passed as object
+	**/
+	var css = function ( elem, styles ) {
+		for ( var prop in styles ) {
+			elem.style[ prop ] = styles[ prop ];
+		}
+	};
 
 
 	return {
 		hasClass: hasClass,
 		addClass: addClass,
+		evtAnimEnd: evtAnimEnd,
 		removeClass: removeClass,
 		parentUntilClass: parentUntilClass,
-		init: init,
+		css: css,
 	};
+
 }( window, document ));
