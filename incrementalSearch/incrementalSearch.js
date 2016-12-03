@@ -122,13 +122,13 @@ merl.incrementalSearch = ( function( window, document ) {
 		 * @method resultList
 		 * @return {HTMLElement} Element - A ul element, appended after input.
 		**/
-		resultList: function () {
+        resultList: function () {
 			var t = this;
-			var res = t.input.querySelector( defs.selectResult );
+			var res = t.elem.querySelector( defs.selectResult );
 			if( !res ) {
 				res = document.createElement( 'div' );
 				res.classList.add( defs.selectResult.substr( 1 ) );
-				t.input.parentNode.appendChild( res );
+				t.elem.appendChild( res );
 			}
 			res.setAttribute( 'aria-live', 'polite' );
 			return res;
