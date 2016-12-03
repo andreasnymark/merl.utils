@@ -16,7 +16,7 @@ merl.incrementalSearch = ( function( window, document ) {
 		searchAll = [],
 		defs = {
 			all: [],
-			selectInput: '.js-incrementalsearch',
+			selectElem: '.js-incrementalsearch',
 			selectWrap: '.Search',
 			selectResult: '.Search-result',
 			minChars: 3,
@@ -45,12 +45,13 @@ merl.incrementalSearch = ( function( window, document ) {
 	 * @constructor IncrementalSearch
 	 * @param {HTMLElement} Element
 	**/
-	var IncrementalSearch = function( input ) {
+	var IncrementalSearch = function( elem ) {
 		var t = this;
-		t.input = t.confirmInput( input );
+		t.elem = confirmParent( elem );
+		t.input = confirmInput( t.elem );
 		t.result = t.resultList();
 		t.xhrSearch = new XMLHttpRequest();
-		t.input.addEventListener( 'input', this.triggerSearch.bind( t ) );
+		t.input.addEventListener( 'input', t.triggerSearch.bind( t ) );
 		window.addEventListener( 'keydown', traverseResults.bind( t ) );
 		t.xhrSearch.addEventListener( 'readystatechange', xhrState.bind( t ) );
 	};
@@ -122,29 +123,15 @@ merl.incrementalSearch = ( function( window, document ) {
 		 * @return {HTMLElement} Element - A ul element, appended after input.
 		**/
 		resultList: function () {
-			var res = document.querySelector( defs.selectResult );
+			var t = this;
+			var res = t.input.querySelector( defs.selectResult );
 			if( !res ) {
 				res = document.createElement( 'div' );
 				res.classList.add( defs.selectResult.substr( 1 ) );
-				this.input.parentNode.appendChild( res );
+				t.input.parentNode.appendChild( res );
 			}
 			res.setAttribute( 'aria-live', 'polite' );
 			return res;
-		},
-
-
-		/**
-		 * Make sure it’s an input element.
-		 *
-		 * @method confirmInput
-		 * @param {HTMLElement} Element - The input element
-		**/
-		confirmInput: function ( elem ) {
-			if ( elem.nodeName !== 'INPUT' ) {
-				elem = elem.querySelector( 'input[type=text]' );
-				if ( !elem ) console.log( 'incrementalSearch needs an input=text to work' );
-			}
-			return elem;
 		},
 	};
 
@@ -203,7 +190,7 @@ merl.incrementalSearch = ( function( window, document ) {
 		var elemActive = document.activeElement;
 
 		// make sure we disable default key up/down only when search is open.
-		if( merl.utils.parentUntilClass( elemActive, defs.selectWrap ) ) {
+		if ( merl.utils.parentUntilClass( elemActive, defs.selectWrap ) && this.elem.contains( elemActive ) ) {
 			var nextSibling = elemActive.parentElement.nextElementSibling;
 			var prevSibling = elemActive.parentElement.previousElementSibling;
 
@@ -234,6 +221,37 @@ merl.incrementalSearch = ( function( window, document ) {
 
 
 	/**
+	 * Make sure it’s an input element.
+	 *
+	 * @method confirmInput
+	 * @param {HTMLElement} Element - The input element
+	**/
+	var confirmInput = function ( elem ) {
+		if ( elem.nodeName !== 'INPUT' ) {
+			elem = elem.querySelector( 'input[type=text]' );
+			if ( !elem ) console.log( 'incrementalSearch needs an input=text to work' );
+		}
+		return elem;
+	};
+
+
+	/**
+	 * Make sure we have a parent element. If it’s an input, we
+	 * use first parent element.
+	 *
+	 * @method confirmParent
+	 * @param {HTMLElement} Element
+	**/
+	var confirmParent = function ( elem ) {
+		if ( elem.nodeName === 'INPUT' ) {
+			elem = elem.parentNode;
+		}
+		return elem;
+	};
+
+
+
+	/**
 	 * Init
 	 *
 	 * @method init
@@ -249,7 +267,7 @@ merl.incrementalSearch = ( function( window, document ) {
 		// Include
 		if ( !merl.utils ) console.log( 'incrementalSearch requires merl.utils.js' );
 
-		defs.all = document.querySelectorAll( defs.selectInput );
+		defs.all = document.querySelectorAll( defs.selectElem );
 
 		if ( defs.all.length > 0 ) {
 			for( var i = 0, len = defs.all.length; i<len; i++ ) {
