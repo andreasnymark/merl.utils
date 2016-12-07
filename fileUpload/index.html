@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>fileUpload.js</title>
+</head>
+<body>
+    <ul class="List">
+		<li class="List-item">
+			<img src="<?php echo $image->url() ?>" alt="" width="300">
+		</li>
+	    <li class="List-item js-fileUpload">
+    		<form method="post">
+    	    	<input type="file" name="file" value="">
+    		</form>
+    	</li>
+    </ul>
+    <script src="../utils/utils.js" charset="utf-8"></script>
+    <script src="fileUpload.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        merl.fileUpload.init();
+    </script>
+</body>
+</html>
