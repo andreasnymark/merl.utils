@@ -33,14 +33,14 @@ merl.editor = ( function ( window, document ) {
 		}
 
 		var e = document.querySelector( defs.selectEditor ),
-            t = document.querySelector( defs.selectTitle );
+			t = document.querySelector( defs.selectTitle );
 
 		if ( e ) {
-            e.value = ls.getItem( defs.editor );
-            e.addEventListener( 'input', function () {
-                ls.setItem( defs.editor, this.value );
-            } );
-        }
+			e.value = ls.getItem( defs.editor );
+			e.addEventListener( 'input', function () {
+				ls.setItem( defs.editor, this.value );
+			} );
+		}
 
 		if ( t ) {
 			t.value = ls.getItem( defs.title );
@@ -49,7 +49,6 @@ merl.editor = ( function ( window, document ) {
 			} );
 		}
 	};
-
 
 
 	return {
