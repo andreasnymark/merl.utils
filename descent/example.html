@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Descent</title>
+    <link rel="stylesheet" href="http://nymark.local/assets/styles/app.min.css">
+</head>
+<body style="background:#fff; height: 2000px">
+    <button type="button" onclick="javascript:nymark.descent.trigger();merl.wordwrap.init();">Button</button><br>
+    <canvas id="canvas" width="3000" height="4000" style="width:100vw; height:2000px"></canvas>
+
+    <div class="Billboard" style="position: absolute; top:100px;left:0; right:0;">
+    	<div class="Billboard-head">
+    		<h1 class="u-headExtra u-prefix js-wordwrap" data-prefix="Who" data-wordwrap='{"wrapClass":"Billboard-word", "delay":80}'>A problem solving, hybrid designer for hire.</h1>
+    	</div>
+    </div>
+
+    <script type="text/javascript" src="http://nymark.local/assets/scripts/app.js"></script>
+    <script type="text/javascript" src="descent.js"></script>
+	<script>
+        document.onreadystatechange = function () {
+			if ( document.readyState === 'interactive' ) {
+                nymark.descent.init();
+			}
+		}
+    </script>
+</body>
+</html>
