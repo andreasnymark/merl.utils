@@ -18,29 +18,11 @@ nymark.descent = ( function ( window, document ) {
 		docHeight = 100,
 		defs = {
 			dur: 750,
+			top: 120
 		};
 
-
-	/**
-	 * Initiate plugin
-	 *
-	 * @method init
-	 * @param {Object} options - override default settings
-	**/
-	var init = function ( options ) {
-		if ( options ) {
-			for ( var o in options ) {
-				defs[ o ] = options[ o ];
-			}
-		}
-
-		setDocDimensions();
-		instances.push( new Descent( document.querySelector( 'canvas' ) ) );
-
-		for ( var i = 0, len = instances.length; i < len; i++ ) {
-			instances[ i ].update();
-		}
-	};
+	var evtEnd = document.createEvent( 'Event' );
+	evtEnd.initEvent( 'nymark.descent.end', true, true );
 
 
 	/**
@@ -82,12 +64,13 @@ nymark.descent = ( function ( window, document ) {
 		update: function () {
 			var t = this;
 			t.tim = ( Date.now() - t.start ) / ( 1000 );
-			if ( t.tim < t.dur ) {
+			if ( t.tim <= t.dur ) {
+				t.render();
 				t.animation = window.requestAnimationFrame( t.update.bind( t ) );
 			} else {
+				t.canvas.dispatchEvent( evtEnd );
 				window.cancelAnimationFrame( t.animation );
 			}
-			t.render();
 		},
 
 
@@ -98,14 +81,14 @@ nymark.descent = ( function ( window, document ) {
 			var t = this;
 
 			var outOpac = t.easing( t.tim, 1, -1 ),
-				outYPos = t.easing( t.tim, 160, -160 ),
+				outYPos = t.easing( t.tim, ( defs.top * 2 ), ( defs.top * -2 ) ),
 				outWidth = t.easing( t.tim, ( docWidth * 1.6 ), 600 ),
-				outHeight = t.easing( t.tim, 4000, 200 );
+				outHeight = t.easing( t.tim, ( docHeight * 2 ), 200 );
 
 			var inOpac = t.easing( t.tim, 0, 1 ),
-				inYPos = t.easing( t.tim, 500, -340 ),
-				inWidth = t.easing( t.tim, ( docWidth * 1.2 ), ( ( docWidth * 1.6 ) - ( docWidth * 1.2 ) ) ),
-				inHeight = t.easing( t.tim, 4000, 200 );
+				inYPos = t.easing( t.tim, ( defs.top * 6 ), ( defs.top * -4 ) ),
+				inWidth = t.easing( t.tim, ( docWidth * 1 ), ( ( docWidth * 1.6 ) - ( docWidth * 1 ) ) ),
+				inHeight = t.easing( t.tim, ( docHeight * 2 ), 200 );
 
   		  	t.ctx.clearRect( 0, 0, docWidth * 2, docHeight * 2 );
 			t.ctx.fillStyle = 'rgba( 240, 236, 235, ' + outOpac + ' )';
@@ -153,6 +136,28 @@ nymark.descent = ( function ( window, document ) {
 		kill: function () {
 			window.cancelAnimationFrame( this.animation );
 		},
+	};
+
+
+	/**
+	 * Initiate plugin
+	 *
+	 * @method init
+	 * @param {Object} options - override default settings
+	**/
+	var init = function ( options ) {
+		if ( options ) {
+			for ( var o in options ) {
+				defs[ o ] = options[ o ];
+			}
+		}
+
+		setDocDimensions();
+		instances.push( new Descent( document.querySelector( 'canvas' ) ) );
+
+		for ( var i = 0, len = instances.length; i < len; i++ ) {
+			instances[ i ].update();
+		}
 	};
 
 
