@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Wordwrap</title>
+	<style>
+		* {
+			font-family: sans-serif;
+			font-weight: 300;
+			line-height: 1.2;
+		}
+        p {
+            max-width: 50vw;
+            margin: auto;
+        }
+		@-webkit-keyframes lorem {
+			0% { opacity: 0; transform: scale(1); }
+			50% { opacity: .5; transform: scale(1.2); }
+			100% { opacity: 1; transform: scale(1); }
+		}
+		a, strong, em, span, i, b, u {
+			animation: lorem .3s ease-out backwards;
+			display: inline-block;
+		}
+    </style>
+</head>
+<body>
+	<p class="js-wordWrapper">
+		Lorem ipsum ipsum åskådare svålskådare ipsum dolor sit ipsum amet, <strong>consectetur</strong> adipisicing elit. Vero quae animi magnam repudiandae nulla provident éxem och kallskuret quibusdam ipsum nam voluptates! Voluptatibus voluptates iste <a href="#">facilis ipsum quia nostrum</a> ipsum omnis, eos odit officiis recusandae.
+   </p>
+
+   <p class="js-wordWrapper" data-wordWrapper='{"wrapClass": "banana"}'>
+		Dolor sit ipsum amet, <strong>consectetur</strong> adipisicing elit. Voluptatibus voluptates iste <a href="#">facilis ipsum quia nostrum</a> ipsum omnis, eos odit officiis recusandae.</p>
+
+   <p class="js-wordWrapper" data-wordWrapper='{"wrapClass": "banana", "wrapElem": "i"}'>
+		Dolor sit ipsum amet, <strong>consectetur</strong> adipisicing elit. Voluptatibus voluptates iste <a href="#">facilis ipsum quia nostrum</a> ipsum omnis, eos odit officiis recusandae.
+   </p>
+
+	<ol>
+		<li class="js-wordWrapper" data-wordWrapper='{"wrapElem": "u"}'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio hic natus tempora voluptatibus amet aliquam iure mollitia sint, earum reprehenderit quisquam vitae.</li>
+		<li class="js-wordWrapper" data-wordWrapper='{"wrapElem": "strong"}'>Quos ad quidem placeat ratione, rem distinctio commodi sequi? Perspiciatis.</li>
+		<li>Quos ad quidem placeat ratione, rem distinctio commodi sequi? Perspiciatis.</li>
+	</ol>
+   <p class="js-wordWrapper" data-wordWrapper='{"wrapElem": "u"}'>
+		Dolor sit ipsum amet, <strong>consectetur</strong> adipisicing elit. Voluptatibus voluptates iste <a href="#">facilis ipsum quia nostrum</a> ipsum omnis, eos odit officiis recusandae.
+   </p>
+   <div class="js-wordWrapper" data-wordWrapper='{"wrapElem": "strong"}'>Å ä ö øolorø <em>è åorem Æpsum</em> sit ameté, èconsectetur… Åin consequuntur atque…?
+	</div>
+
+	<hr>
+	<div class="js-wordWrapper" style="width: 400px; padding: 100px;" data-wordWrapper='{"wrapElem": "span"}'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum ipsam hic natus sed ex eligendi id aspernatur quam voluptate culpa incidunt possimus veniam et quidem quaerat eius, qui autem modi!</div>
+
+
+	<script defer type="text/javascript" src="../utils/utils.js"></script>
+	<script defer type="text/javascript" src="wordWrapper.js"></script>
+	<script>
+        document.onreadystatechange = function () {
+			if ( document.readyState == 'complete' ) {
+				merl.wordWrapper.init();
+			}
+		}
+		document.querySelector( '.js-wordWrapper' ).addEventListener( 'merl.wordWrapper.end', function() { console.log( 'Done' ) } );
+    </script>
+</body>
+</html>
