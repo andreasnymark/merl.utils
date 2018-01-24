@@ -18,9 +18,17 @@
 			50% { opacity: .5; transform: scale(1.2); }
 			100% { opacity: 1; transform: scale(1); }
 		}
+		@-webkit-keyframes translate {
+			0% { transform: translateX(-100%) }
+			100% { transform: translateX(0) }
+		}
 		a, strong, em, span, i, b, u {
 			animation: lorem .3s ease-out backwards;
 			display: inline-block;
+		}
+		.special span {
+			animation: translate .3s ease-out backwards;
+		
 		}
     </style>
 </head>
@@ -49,6 +57,8 @@
 
 	<hr>
 	<div class="js-wordWrapper" style="width: 400px; padding: 100px;" data-wordWrapper='{"wrapElem": "span"}'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum ipsam hic natus sed ex eligendi id aspernatur quam voluptate culpa incidunt possimus veniam et quidem quaerat eius, qui autem modi!</div>
+
+	<h1 class="js-wordWrapper special" data-wordWrapper='{"wrapElem": "span"}'>Lorem ipsum sit dolor</h1>
 
 
 	<script defer type="text/javascript" src="../utils/utils.js"></script>

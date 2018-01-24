@@ -123,13 +123,98 @@ merl.utils = ( function ( window, document ) {
 	};
 
 
+	/**
+	 * Replace element with another, keeping all attributes
+	 *
+	 * @method changeElement
+	 * @param elem {HTMLElement} - DOM Element
+	 * @param newTag {String} - name of new tag
+	 * @return {Object}
+	**/
+	var changeElement = function( elem, newTag ) {
+		newTag = typeof newTag !== 'undefined' ? newTag : 'div';
+		if ( elem ) {
+			var elemNew = document.createElement( newTag );
+			var attr = elem.attributes;
+			var value = elem.innerHTML;
+
+			for ( var i = 0, len = attr.length; i < len; i++ ) {
+				elemNew.setAttribute( attr[ i ].nodeName, attr[ i ].nodeValue );
+			}
+			elemNew.innerHTML = value;
+			return elemNew;
+		}
+	};
+
+
+	/**
+	 * Add attributes
+	 *
+	 * @method addAttr
+	 * @param elem {HTMLElement} - DOM Element
+	 * @param attr {Array} - attr: value pair
+	**/
+	var addAttr = function( elem, attrs ) {
+		if ( elem && attr instanceof Array ) {
+			
+			
+			for ( var i = 0, len = attr.length; i < len; i++ ) {
+				elemNew.setAttribute( attr[ i ].nodeName, attr[ i ].nodeValue );
+			}
+			elemNew.innerHTML = value;
+			return elemNew;
+		}
+	};
+
+
+
+	/**
+	 * Get sibling elements, excluding the element
+	 *
+	 * @method getSiblings
+	 * @param elem {Object} Element to get siblings from
+	 * @return {Array}
+	**/
+	var getSiblings = function ( elem ) {
+		var siblings = [];
+		var child = elem.parentNode.firstChild;
+
+		do {
+			if ( child.nodeType === 1 && child != elem ) siblings.push( child );
+		} while ( child = child.nextSibling );
+
+		return ( siblings.length > 0 ) ? siblings : null;
+	};
+
+
+
+
+	/**
+	 * Returns random value from Object
+	 * @method rndObj
+	 * @param {Object} obj - list of values to randomize.
+	 * @return {String} value
+	 */
+	var rndObj = function ( obj ) {
+		if ( typeof obj === 'object' ) {
+			var rnd = Math.floor( Math.random() * obj.length );
+			return obj[ rnd ];
+		}
+	};
+
+
+
+
 	return {
+		parentUntilClass: parentUntilClass,
+		changeElement: changeElement,
+		getSiblings: getSiblings,
+		removeClass: removeClass,
+		evtAnimEnd: evtAnimEnd,
 		hasClass: hasClass,
 		addClass: addClass,
-		evtAnimEnd: evtAnimEnd,
-		removeClass: removeClass,
-		parentUntilClass: parentUntilClass,
 		css: css,
+		addAttr: addAttr,
 	};
 
 }( window, document ));

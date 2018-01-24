@@ -9,18 +9,22 @@
 			100% { opacity: 0 }
 		}
 		.js-asyncLoadDoc {
-			transition: opacity 250ms ease-out;
+			transition: opacity .5s ease-out;
 		}
 		.anim {
 			opacity: 0;
 /*			animation: anim 500ms linear 1 forwards;*/
-			
+
 		}
+		.is-entering { opacity: 1 }
+		.is-exiting { opacity: 0 }
+
+
 	</style>
-	
+
 </head>
 <body>
-	
+
 	<a href="example.html">Example</a>
 	<a href="about.html">About us</a>
 	<a href="contact.html">Contact us</a>
@@ -45,20 +49,20 @@
 		<hr>
 		<h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum vel autem voluptas, a, suscipit praesentium consequatur repellendus nemo, libero asperiores esse eos eaque. Reiciendis, ad, ipsa illum deserunt id iste!</h1>
 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam non rem assumenda aliquid vero fugit provident quis tempore sed iure, ipsa excepturi mollitia harum nobis maiores illo laudantium maxime et.</p>
-	
-	
+
+
 	</div>
 
-	
-	
-	
+
+
+
 	<script src="asyncLoadDoc.js"></script>
 	<script>
 		document.onreadystatechange = function () {
 			if ( document.readyState == 'complete' ) {
 				merl.asyncLoadDoc.init();
 			}
-		} 
+		}
 	</script>
 </body>
 </html>

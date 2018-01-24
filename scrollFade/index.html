@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>scrollToggleClass</title>
+    <title>scrollToggle</title>
     <style>
         .block {
             width: 500px;
@@ -14,22 +14,19 @@
             backface-visibility: hidden;
             background: #fff;
         }
-        .block-in-view {
-            <!--background: #fc0; -->
-        }
-        .is-inView {
-            opacity: 1;
-            transition-delay: 200ms;
-            transform: scale3d( 1, 1, 1 );
-        }
-        .is-outOfView {
-            opacity: 0;
-            transform: scale3d( .9, .9, 1 );
+        .js-title {
+            font-size: 400px;
+            position: fixed;
+            white-space: nowrap;
+            margin: 0;
+            transition: opacity .3s linear;
         }
     </style>
 </head>
 <body>
-    <div class="js-stc">
+
+    <h1 class="js-title">About us</h1>
+    <div class="">
         <div class="block">
             <h1>Block 1</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum delectus voluptatem ullam facere reiciendis, ducimus in laboriosam eius tempora, earum iure non tenetur numquam, quibusdam asperiores cumque amet impedit nulla.</p>
@@ -84,11 +81,11 @@
             <p>Sit amet, consectetur adipisicing elit. Voluptatum delectus voluptatem ullam facere reiciendis, ducimus in laboriosam eius tempora, earum iure non tenetur numquam, quibusdam asperiores cumque amet impedit nulla.</p>
         </div>
     </div>
-    <script async type="text/javascript" src="scrollToggleClass.js"></script>
+    <script type="text/javascript" src="scrollFade.js"></script>
 	<script>
         document.onreadystatechange = function () {
-			if ( document.readyState === 'complete' ) {
-                merl.scrollToggleClass.init();
+			if ( document.readyState === 'interactive' ) {
+                merl.scrollFade.init();
 			}
 		}
     </script>

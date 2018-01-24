@@ -11,24 +11,22 @@
 **/
 var merl = merl || {};
 
-merl.wordWrapper = ( function ( window, document ) {
+merl.letterWrapper = ( function ( window, document ) {
 	"use strict";
 
 
 	var instances = [], 
 		defs = {
-			selector: '.js-wordWrapper',
-			delay: 100, // adds styles for animation-delay
-			initDelay: 500, 
-			wrapElem: 'span',
-			wrapClass: '',
+			selector: '.js-letterWrapper',
+			delay: 20, // adds styles for animation-delay
+			initDelay: 100, 
 			wrapStyle: '',
-			attrData: 'data-wordWrapper',
+			attrData: 'data-letterWrapper',
 		},
 		eventEnd = document.createEvent( 'Event' ),
 		eventAnimEnd = merl.utils.evtAnimEnd();
 
-	eventEnd.initEvent( 'merl.wordWrapper.end', true, true );
+	eventEnd.initEvent( 'merl.letterWrapper.end', true, true );
 
 	/**
 	 *
@@ -43,21 +41,17 @@ merl.wordWrapper = ( function ( window, document ) {
 		t.text = t.elem.innerText;
 		t.delay = defs.delay;
 		t.content = t.elem.innerHTML;
-		t.wrapElem = defs.wrapElem;
 		t.children = new Array();
-		t.wrapClass = defs.wrapClass;
 		t.wrapStyle = defs.wrapStyle;
 
 
 		if ( data ) {
 			var d = JSON.parse( data );
 			if( d.delay ) t.delay = d.delay;
-			if( d.wrapElem ) t.wrapElem = d.wrapElem;
-			if( d.wrapClass ) t.wrapClass = d.wrapClass;
 			if( d.wrapStyle ) t.wrapStyle = d.wrapStyle;
 		}
 
-		t.wrapWords();
+		t.wrapLetters();
 	};
 
 
@@ -66,31 +60,10 @@ merl.wordWrapper = ( function ( window, document ) {
 		/**
 		 * @method wrapWords
 		 */
-		wrapWords: function () {
+		wrapLetters: function () {
 			var t = this;
-			t.wrapTextInElem();
-			if ( t.wrapClass !== '' ) t.addClass( t.elem.querySelectorAll( t.wrapElem ), t.wrapClass );
-		},
-
-
-		/**
-		 * Wraps each word in an element.
-		 *
-		 * @method wrapTextInElement
-		 * @param elem { Object } Element.
-		 */
-		wrapTextInElem: function ( elem ) {
-			var t = this,
-				re, 
-				word,
-				arr = t.text.split( / |\u00A0/ ),
-				obj = removeDuplicates( arr );
-
-			for ( var key in obj ) {
-				word = obj[ key ].replace( /(\r\n|\n|\r)/gm, '' );
-				re = new RegExp( '(^|\\b)' + word + '($|\\s|\\?)', 'gm' ); // http://www.regular-expressions.info/anchors.html
-				t.content = t.content.replace( re, '<' + t.wrapElem + '>' + '\$&' + '</' + t.wrapElem + '>\n\r' );
-			}
+			var re = t.text.replace( /\S/gm, '<b><i>$&</i></b>' );
+			t.content = re;
 			t.updateContent();
 		},
 
@@ -107,7 +80,7 @@ merl.wordWrapper = ( function ( window, document ) {
 			t.elem.innerHTML = t.content;
 			if ( t.delay ) t.setDelay( t.children, t.delay );
 			if ( t.wrapStyle ) t.addStyle( t.children, t.wrapStyle );
-			if ( t.wrapClass ) t.addClass( t.children, t.wrapClass );
+			// if ( t.wrapClass ) t.addClass( t.children, t.wrapClass );
 
 			t.addEvent( t.children );
 		},
@@ -120,11 +93,11 @@ merl.wordWrapper = ( function ( window, document ) {
 		 * @param wrapElems { Object } List of elements
 		 * @param wrapClass { String } Class added
 		 */
-		addClass: function ( elems, cls ) {
-			for ( var i = 0, len = elems.length; i < len; i++ ) {
-				elems[ i ].classList.add( cls );
-			}
-		},
+		// addClass: function ( elems, cls ) {
+		// 	for ( var i = 0, len = elems.length; i < len; i++ ) {
+		// 		elems[ i ].classList.add( cls );
+		// 	}
+		// },
 
 
 		/**
@@ -137,9 +110,13 @@ merl.wordWrapper = ( function ( window, document ) {
 		addStyle: function ( elems, wrapStyle ) {
 			for ( var i = 0, len = elems.length; i < len; i++ ) {
 				var elem = elems[ i ],
-					currStyles = elem.getAttribute( 'style' ) || '';
+					currStyles = elem.firstChild.getAttribute( 'style' ) || '';
 
-				elem.setAttribute( 'style', currStyles + wrapStyle );
+				if ( elem.firstChild ) {
+					elem.firstChild.setAttribute( 'style', currStyles + wrapStyle );
+				} else {
+					elem.setAttribute( 'style', currStyles + wrapStyle );
+				}
 			}
 		},
 
@@ -151,6 +128,7 @@ merl.wordWrapper = ( function ( window, document ) {
 		 */
 		addEvent: function ( elems ) { 
 			var t = this;
+
 			for ( var i = 0, len = elems.length; i < len; i++ ) {
 				var child = elems[ i ];
 				if ( i === len - 1 ) {
@@ -169,35 +147,17 @@ merl.wordWrapper = ( function ( window, document ) {
 			var t = this;
 			for ( var i = 0, len = elems.length; i < len; i++ ) {
 				var elem = elems[ i ],
-					currStyles = elem.getAttribute( 'style' ) || '';
+					currStyles = elem.firstChild.getAttribute( 'style' ) || '';
 
 				if ( defs.delay > 0 ) {
 					var d = parseInt( defs.initDelay + ( i * delay ) );
-					elem.setAttribute( 'style', 'animation-delay: ' + d + 'ms;' );
+					elem.firstChild.setAttribute( 'style', 'animation-delay: ' + d + 'ms;' + currStyles );
 				}
 			}
 		},
 	};
 
 
-	/**
-	 * Removes duplicates in an array.
-	 *
-	 * @method removeDuplicates
-	 * @param a { Array } Array of words.
-	 * @return { Array }
-	 */
-	var removeDuplicates = function ( arr ) {
-		var obj = {};
-		for ( var i = 0; i < arr.length; i++ ) {
-			obj[ arr[ i ]] = true;
-		}
-		arr = [];
-		for ( var key in obj ) {
-			arr.push( key );
-		}
-		return arr;
-	};
 
 
 	/**

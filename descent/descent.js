@@ -1,5 +1,5 @@
 /**
- * Descent. Canvas animation to descent deeper into the website.
+ * Javascript plugin to visualise descend deeper into the website.
  * Built for www.nymark.me.
  *
  * @author Andreas Nymark <andreas@nymark.me>
@@ -14,9 +14,11 @@ nymark.descent = ( function ( window, document ) {
 
 
 	var instances = [],
+		elems = [],
 		docWidth = 100,
 		docHeight = 100,
 		defs = {
+			elem: '.js-descent',
 			dur: 750,
 			top: 120
 		};
@@ -45,14 +47,13 @@ nymark.descent = ( function ( window, document ) {
 
 
 		/**
-		 * Initiate descent
+		 * Initiate dt
 		 *
 		 * @method init
 		 */
 		init: function () {
 			var t = this;
 			window.cancelAnimationFrame( t.animation );
-			// set new start time
 			t.start = Date.now();
 			t.update();
 		},
@@ -152,11 +153,14 @@ nymark.descent = ( function ( window, document ) {
 			}
 		}
 
+		elems = document.querySelectorAll( defs.elem );
 		setDocDimensions();
-		instances.push( new Descent( document.querySelector( 'canvas' ) ) );
 
-		for ( var i = 0, len = instances.length; i < len; i++ ) {
-			instances[ i ].update();
+		if ( elems.length > 0 ) {
+			for ( var i = 0, len = elems.length; i < len; i++ ) {
+				instances.push( new Descent( elems[ i ] ) );
+				instances[ i ].init();
+			}
 		}
 	};
 

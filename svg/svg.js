@@ -14,7 +14,7 @@ merl.svg = ( function ( window, document ) {
 			selectSVG: '.js-svg',
 			ns: 'http://www.w3.org/2000/svg',
 			bgColor: 'rgb( 218, 215, 212 )',
-			opacity: 0.4,
+			opacity: 0.45,
 			boundary: {
 				narrow: 800
 			},
@@ -32,7 +32,7 @@ merl.svg = ( function ( window, document ) {
 		};
 
 
-	/*
+	/**
 	* @constructor SVG
 	*
 	* @param color {Object} DOMObject
@@ -54,7 +54,7 @@ merl.svg = ( function ( window, document ) {
 	};
 
 
-	/*
+	/**
 	* @method resizeContainer
 	*
 	* Set size on container (SVG) based on size of window
@@ -69,7 +69,7 @@ merl.svg = ( function ( window, document ) {
 
 
 
-	/*
+	/**
 	* @method resetRects
 	*
 	* Reset rectangles to original position
@@ -109,7 +109,7 @@ merl.svg = ( function ( window, document ) {
 	};
 
 
-	/*
+	/**
 	* @method pseudoZoomIn
 	*
 	* Adds classes to each rectangle, and removes via timeout.
@@ -121,21 +121,20 @@ merl.svg = ( function ( window, document ) {
 			s.running = true;
 			s.resetRects();
 
-//			s.rects[ 0 ].classList.add( defs.cls.in );
-//			s.rects[ 1 ].classList.add( defs.cls.up );
-//			s.rects[ 2 ].classList.add( defs.cls.out );
-
-			merl.utils.addClass( s.rects[ 0 ], defs.cls.in );
-			merl.utils.addClass( s.rects[ 1 ], defs.cls.up );
-			merl.utils.addClass( s.rects[ 2 ], defs.cls.out );
+			merl.utils.addClass( s.rects[ 0 ], defs.cls.in, true );
+			merl.utils.addClass( s.rects[ 1 ], defs.cls.up, true );
+			merl.utils.addClass( s.rects[ 2 ], defs.cls.out, true );
 
 			// Maybe do something else?
 			var t = setTimeout( ( function () {
 				var s = this;
 				for ( var i=0; i<3; i++ ) {
-					s.rects[ 0 ].classList.remove( defs.cls.in );
-					s.rects[ 1 ].classList.remove( defs.cls.up );
-					s.rects[ 2 ].classList.remove( defs.cls.out );
+					// s.rects[ 0 ].classList.remove( defs.cls.in );
+					// s.rects[ 1 ].classList.remove( defs.cls.up );
+					// s.rects[ 2 ].classList.remove( defs.cls.out );
+					merl.utils.removeClass( s.rects[ 0 ], defs.cls.in, true );
+					merl.utils.removeClass( s.rects[ 1 ], defs.cls.up, true );
+					merl.utils.removeClass( s.rects[ 2 ], defs.cls.out, true );
 					s.running = false;
 
 					//temp
@@ -146,7 +145,7 @@ merl.svg = ( function ( window, document ) {
 	};
 
 
-    /*
+    /**
 	* @method sizeDoc
 	*
 	* Measure document width/height and returns this together with offScreen.
@@ -154,7 +153,7 @@ merl.svg = ( function ( window, document ) {
 	* returns obj {Object} Object
 	*/
     var sizeDoc = function () {
-		var offScreen = 0.18,
+		var offScreen = 0.21,
 			obj;
 
 		if ( document.body.clientWidth < defs.boundary.narrow ) offScreen = 0.05;
@@ -173,7 +172,7 @@ merl.svg = ( function ( window, document ) {
     };
 
 
-    /*
+    /**
 	* @method createRectangle
 	*
 	* @param x {Number} x-position
@@ -192,7 +191,8 @@ merl.svg = ( function ( window, document ) {
         rect.setAttributeNS( null, 'height', height );
         rect.setAttributeNS( null, 'fill', color );
 
-		if( cls && typeof cls === 'string' ) rect.classList.add( cls );
+		// if( cls && typeof cls === 'string' ) rect.classList.add( cls );
+		if( cls && typeof cls === 'string' ) merl.utils.addClass( rect, cls, true );
 
 		return rect;
 	};
@@ -201,7 +201,7 @@ merl.svg = ( function ( window, document ) {
 
 
 
-    /*
+    /**
 	* @method resizeRectangles
 	*
 	* @param options {Object} Object
@@ -217,20 +217,9 @@ merl.svg = ( function ( window, document ) {
 
 
 
-	var lorem = function ( evt ) {
-		for ( var i = 0, len = instances.length; i < len; i++ ) {
-			instances[ i ].pseudoZoomIn();
-		}
-
-		var t = setTimeout( function() {
-			window.scroll(0,0);
-		}, 1400 );
-
-		evt.preventDefault();
-	};
 
 
-	/*
+	/**
 	* Init
 	*
 	* @method init
@@ -270,6 +259,18 @@ merl.svg = ( function ( window, document ) {
 	};
 
 
+	var zoom = function () {
+
+		for ( var i = 0, len = instances.length; i < len; i++ ) {
+			instances[ i ].pseudoZoomIn();
+		}
+
+		// var t = setTimeout( function() {
+		// 	window.scroll(0,0);
+		// }, 1400 );
+
+		// evt.preventDefault();
+	};
 
 
 
@@ -277,7 +278,7 @@ merl.svg = ( function ( window, document ) {
 	return {
 		init: init,
 		resizeRectangles: resizeRectangles,
-		lorem: lorem,
+		zoom: zoom,
 	};
 
 

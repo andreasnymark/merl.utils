@@ -3,9 +3,8 @@
 * @description Asynchronous load new document to replace current content in element.
 * Sets a class on element when content is exiting. Replace content. Sets new class
 * for content when entering. Listens to transitionend.
-* @author Andreas Nymark <andreas@nymark.me>
-* @license MIT
-*
+* @author: Andreas Nymark <andreas@nymark.me>
+* @license: MIT
 */
 var merl = merl || {};
 
@@ -26,7 +25,9 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 		initLocation = document.location.href,
 		origin = null,
 		eventBeforeChange = 'transitionend',
-		eventNewContent = new Event( 'merl.newcontentloaded' );
+		eventNewContent = document.createEvent( 'Event' );
+
+	eventNewContent.initEvent( 'merl.newcontentloaded', true, true);
 
 
 	/**
@@ -79,6 +80,7 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 			if ( !asyncing ) {
 				asyncing = true;
 				var domain = extractDomain( evt.target.href );
+
 				if( domain === origin ) {
 					var t = this;
 					currInstance = t;
@@ -135,8 +137,8 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 				t.xhRequest( t.xhrPage, t.url );
 			}
 			if( t.elem.classList.contains( defs.classEnter ) ) {
-				t.elem.classList.remove( defs.classEnter );
 				asyncing = false;
+				t.elem.classList.remove( defs.classEnter );
 			}
 		},
 
@@ -220,6 +222,8 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 	var extractDomain = function ( url ) {
 		var domain;
 
+		url = String( url ) || null;
+
 		if( url.indexOf( '://' ) > -1 ) {
 			domain = url.split( '/' )[2];
 		} else {
@@ -258,7 +262,7 @@ merl.asyncLoadDoc = ( function ( window, document ) {
 			window.removeEventListener( 'popstate', statePop );
 			window.addEventListener( 'popstate', statePop );
 
-			origin = extractDomain( document.location.origin );
+			origin = extractDomain( initLocation );
 		}
 	};
 
