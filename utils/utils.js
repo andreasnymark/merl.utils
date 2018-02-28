@@ -205,6 +205,28 @@ merl.utils = ( function ( window, document ) {
 
 
 
+	// https://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
+	/**
+	 * Returns random value from Object
+	 * @method rndObj
+	 * @param {Object} obj - list of values to randomize.
+	 * @return {String} value
+	 */
+	var executeFunctionByName = function ( functionName, context /*, args */) {
+		var args = Array.prototype.slice.call( arguments, 2 ),
+			ns = functionName.split( '.' ),
+			func = ns.pop();
+
+		for ( var i = 0, len = ns.length; i < len; i++ ) {
+			context = context[ ns[ i ] ];
+		}
+
+		return context[ func ].apply( context, args );
+	};
+
+
+
+
 	return {
 		parentUntilClass: parentUntilClass,
 		changeElement: changeElement,
