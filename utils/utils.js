@@ -156,8 +156,6 @@ merl.utils = ( function ( window, document ) {
 	**/
 	var addAttr = function( elem, attrs ) {
 		if ( elem && attr instanceof Array ) {
-			
-			
 			for ( var i = 0, len = attr.length; i < len; i++ ) {
 				elemNew.setAttribute( attr[ i ].nodeName, attr[ i ].nodeValue );
 			}
