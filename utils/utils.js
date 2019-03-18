@@ -202,6 +202,36 @@ merl.utils = ( function ( window, document ) {
 
 
 
+	/**
+	 * Toggle class on body element based on what kind of 
+	 * input device the user is using. 
+	 * @method setDeviceInputClass
+	 * @param obj {Object} - class name to add on body
+	 */
+	var setDeviceInputClass = function ( obj ) {
+		if ( typeof obj === 'object' ) {
+			var doc = document.body;
+			if ( 'touch' in obj ) {
+				window.addEventListener( 'touchdown', function ( evt ) {
+					merl.utils.removeClass( doc, obj[ 'mouse' ] );
+					merl.utils.addClass( doc, obj[ 'touch' ] );
+				} );
+			}
+			if ( 'mouse' in obj ) {
+				window.addEventListener( 'mousedown', function ( evt ) {
+					merl.utils.removeClass( doc, obj[ 'touch' ] );
+					merl.utils.addClass( doc, obj[ 'mouse' ] );
+				} );
+			}	
+			window.addEventListener( 'keydown', function ( evt ) {
+				merl.utils.removeClass( doc, obj[ 'touch' ] );
+				merl.utils.removeClass( doc, obj[ 'mouse' ] );
+			} );
+		}
+	};
+
+
+
 
 	// https://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
 	/**
@@ -235,6 +265,7 @@ merl.utils = ( function ( window, document ) {
 		addClass: addClass,
 		css: css,
 		addAttr: addAttr,
+		setDeviceInputClass: setDeviceInputClass,
 	};
 
 }( window, document ));
