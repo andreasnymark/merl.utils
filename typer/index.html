@@ -6,7 +6,15 @@
 </head>
 <body>
 
-
+<style type="text/css">
+	.Typer {
+		font-family: sans-serif;
+	}
+	.u-invisible {
+		visibility: hidden;
+		position: absolute;
+	}
+</style>
 
 
 
@@ -16,7 +24,7 @@
 		<div class="Typer-settings" style="display: flex;">
 			
 			<div class="Typer-setting">
-				<label class="u-invsible" for="style_tt1">Style</label>
+				<label class="u-invisible" for="style_tt1">Style</label>
 				<select id="style_tt1" name="style_tt1" data-typer-prop="font-style">
 					<optgroup label="Style">
 						<option value="normal">Roman</option>
@@ -26,7 +34,7 @@
 			</div>
 
 			<div class="Typer-setting">
-				<label class="u-invsible" for="weight">Weight</label>
+				<label class="u-invisible" for="weight">Weight</label>
 				<select id="weight" data-typer-prop="font-weight">
 					<optgroup label="Weight">
 						<option value="300">Light</option>
@@ -37,7 +45,7 @@
 			</div>
 
 			<div class="Typer-setting">
-				<label class="u-invsible" for="weight">Alignment</label>
+				<label class="u-invisible" for="weight">Alignment</label>
 				<select class="js-settings" data-typer-prop="text-align">
 					<optgroup label="Alignment">
 						<option value="left">Left</option>
@@ -48,8 +56,8 @@
 				</select>
 			</div>
 			<div class="Typer-setting">
-				<label class="u-invsible" for="weight">Sample text</label>
-				<select id="sample_tt1" name="sample_tt1">
+				<label class="u-invisible" for="weight">Sample text</label>
+				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content">
 					<optgroup label="Sample text">
 						<option value="en">English</option>
 						<option value="sv">Swedish</option>
@@ -59,8 +67,8 @@
 				</select>
 			</div>
 			<div class="Typer-setting">
-				<label class="u-invsible" id="label_size_tt1">Size</label>
-				<input type="range" class="js-range" data-prop="font-size" id="start" name="size_range" min="12" max="96" step="6" aria-labelledby="label_size_tt1">
+				<label class="u-invisible" id="label_size_tt1">Size</label>
+				<input type="range" class="js-range" data-typer-prop="font-size" id="start" name="size_range" min="12" max="96" step="6" aria-labelledby="label_size_tt1">
 				<input type="text" name="size_value" class="js-rangeValue" aria-labelledby="label_size_tt1">
 			</div>
 		</div>

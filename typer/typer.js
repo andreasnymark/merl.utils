@@ -13,6 +13,11 @@ merl.typer = ( function ( window, document ) {
 	var instances = [];
 	var defs = {
 		selector: '.js-typer',
+		sample: {
+			sv: 'Det kom en visshet över honom, medan han stod där, att han hade idel fiender i kyrkan, fiender i alla bänkar. Bland herrskaperna på läktaren, bland bönderna nere i kyrkan, bland nattvardsbarnen i koret hade han fiender, idel fiender. Det var en fiende, som trampade orgeln, en fiende, som spelade den. I kyrkovärdarnas bänk hade han fiender. Alla hatade honom, alltifrån de små barnen, som hade burits in i kyrkan, ända till kyrkvaktaren, en stel och styv soldat, som hade varit med vid Leipzig. ',
+			en: 'English',
+			fr: 'French',
+		}
 	};
 
 
@@ -57,7 +62,7 @@ merl.typer = ( function ( window, document ) {
 		t.customText = '';
 		t.settings = t.elem.querySelectorAll( '[data-typer-prop]' );
 
-		console.log( t.settings );
+	
 
 		
 
@@ -68,9 +73,10 @@ merl.typer = ( function ( window, document ) {
 		
 
 		for ( var i = 0, len = t.settings.length; i < len; i++ ) {
-			t.settings[ i ].addEventListener( 'change', t.change );
+			t.settings[ i ].addEventListener( 'input', t.change );
 		}
 
+		t.elemText.addEventListener( 'paste', t.paste );
 
 		t.addChildClass( defs.classOutView );
 	};
@@ -78,8 +84,12 @@ merl.typer = ( function ( window, document ) {
 
 	Typer.prototype = {
 
+		/**
+		 * Just pasting clean text, no HTML.
 
-
+		 * @method paste
+		 * @param evt {Object} Event
+		**/
 		paste: function ( evt ) {
 			var t = this;
 			var c = t.customText;
@@ -94,44 +104,59 @@ merl.typer = ( function ( window, document ) {
   		evt.preventDefault();
 		},
 
+		/**
+		 * Change styles of content of text element.
 
+		 * @method change
+		 * @param evt {Object} Event
+		**/
+		change: function ( evt ) {
+			if ( evt ) {
+				var t = this;
+				var prop = evt.target.getAttribute( 'data-typer-prop' );
+				var val = evt.target.value;
+				
+				if ( prop === 'content' ) {
+					t.updateText( defs.sample[ val ] );
+				} else if ( prop === 'font-size' ) {
+					t.updateStyle( prop, val + 'px' );
+				} else {
+					t.updateStyle( prop, val );
+				}
+			}
+		},
 
+		/**
+		 * Set as innerText in element.
+
+		 * @method updateText
+		 * @param txt { String } 
+		**/
 		updateText: function ( txt ) {
 			var t = this;
-			t.elemText.innerText = txt;
+			try {
+				t.elemText.innerText = txt;	
+			} catch ( err ) {
+				alert( err.name + ' ' + err.message );
+			}
 		}, 
 
+		/**
+		 * With property from data-typer-prop, update and 
+		 * set styles for text element.
+
+		 * @method updateText
+		 * @param prop { String } Correct CSS property, not javascript
+		 * @param val { String } Correct CSS value
+		**/
 		updateStyle: function ( prop, val ) {
 			var t = this;
 			try {
 				t.elemText.style[ prop ] = val;
 			} catch ( err ) {
-				alert( err.name + " " + err.message );
+				alert( err.name + ' ' + err.message );
 			}
 		},
-
-		change: function ( evt ) {
-			if ( evt ) {
-				var prop = evt.target.getAttribute( 'data-typer-prop' );
-				var val = evt.target.value;
-				
-				this.updateStyle( prop, val );
-			}
-			// console.log( 'Change!', evt.target, this.elem );
-		},
-
-
-
-		/**
-		 * Add class to child element below the fold.
-
-		 * @method addChildClass
-		 * @param {String} cls - class name
-		**/
-		addChildClass: function ( cls ) {
-			
-		},
-
 
 	};
 
