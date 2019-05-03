@@ -58,12 +58,17 @@
 			<div class="Typer-setting">
 				<label class="u-invisible" for="weight">Sample text</label>
 				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content">
-					<optgroup label="Sample text">
-						<option value="en">English</option>
-						<option value="sv">Swedish</option>
-						<option value="fr">French</option>
-						<option value="custom">Custom</option>
+					<optgroup label="Sample headline">
+						<option value="en-p">English</option>
+						<option value="sv-p">Swedish</option>
+						<option value="fr-p">French</option>
 					</optgroup>
+					<optgroup label="Sample paragraph">
+						<option value="en-h">English</option>
+						<option value="sv-h">Swedish</option>
+						<option value="fr-h">French</option>
+					</optgroup>
+					<option value="custom">Custom</option>
 				</select>
 			</div>
 			<div class="Typer-setting">
@@ -82,6 +87,78 @@
 
 
 
+
+
+
+<div class="Typer js-typer">
+	
+
+		<div class="Typer-settings" style="display: flex;">
+			
+			<div class="Typer-setting">
+				<label class="u-invisible" for="style_tt1">Style</label>
+				<select id="style_tt1" name="style_tt1" data-typer-prop="font-style">
+					<optgroup label="Style">
+						<option value="normal">Roman</option>
+						<option value="italic">Italic</option>
+					</optgroup>
+				</select>
+			</div>
+
+			<div class="Typer-setting">
+				<label class="u-invisible" for="weight">Weight</label>
+				<select id="weight" data-typer-prop="font-weight">
+					<optgroup label="Weight">
+						<option value="300">Light</option>
+						<option value="400">Regular</option>
+						<option value="700">Bold</option>
+					</optgroup>
+				</select>
+			</div>
+
+			<div class="Typer-setting">
+				<label class="u-invisible" for="weight">Alignment</label>
+				<select class="js-settings" data-typer-prop="text-align">
+					<optgroup label="Alignment">
+						<option value="left">Left</option>
+						<option value="center">Center</option>
+						<option value="right">Right</option>
+						<option value="justify">Justify</option>
+					</optgroup>
+				</select>
+			</div>
+			<div class="Typer-setting">
+				<label class="u-invisible" for="weight">Sample text</label>
+				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content">
+					<optgroup label="Sample headline">
+						<option value="en-p">English</option>
+						<option value="sv-p">Swedish</option>
+						<option value="fr-p">French</option>
+					</optgroup>
+					<optgroup label="Sample paragraph">
+						<option value="en-h">English</option>
+						<option value="sv-h">Swedish</option>
+						<option value="fr-h">French</option>
+					</optgroup>
+					<option value="custom">Custom</option>
+				</select>
+			</div>
+			<div class="Typer-setting">
+				<label class="u-invisible" id="label_size_tt1">Size</label>
+				<input type="range" class="js-range" data-typer-prop="font-size" id="start" name="size_range" min="12" max="96" step="6" aria-labelledby="label_size_tt1">
+				<input type="text" name="size_value" class="js-rangeValue" aria-labelledby="label_size_tt1">
+			</div>
+		</div>
+
+		<div class="Typer-text" lang="en" spellcheck="false" autocapitalize="true" inputmode="text" contenteditable="true" style="font-size: 18px">
+			Demo, Typer and try out!
+		</div>
+
+	
+</div>
+
+
+<button>Add</button><button>Hide style controls</button>
 
 
 

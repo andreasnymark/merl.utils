@@ -14,9 +14,10 @@ merl.typer = ( function ( window, document ) {
 	var defs = {
 		selector: '.js-typer',
 		sample: {
-			sv: 'Det kom en visshet över honom, medan han stod där, att han hade idel fiender i kyrkan, fiender i alla bänkar. Bland herrskaperna på läktaren, bland bönderna nere i kyrkan, bland nattvardsbarnen i koret hade han fiender, idel fiender. Det var en fiende, som trampade orgeln, en fiende, som spelade den. I kyrkovärdarnas bänk hade han fiender. Alla hatade honom, alltifrån de små barnen, som hade burits in i kyrkan, ända till kyrkvaktaren, en stel och styv soldat, som hade varit med vid Leipzig. ',
-			en: 'English',
-			fr: 'French',
+			'sv-h': 'Rubrik på svenska',
+			'sv-p': 'Det kom en visshet över honom, medan han stod där, att han hade idel fiender i kyrkan, fiender i alla bänkar. Bland herrskaperna på läktaren, bland bönderna nere i kyrkan, bland nattvardsbarnen i koret hade han fiender, idel fiender. Det var en fiende, som trampade orgeln, en fiende, som spelade den. I kyrkovärdarnas bänk hade han fiender. Alla hatade honom, alltifrån de små barnen, som hade burits in i kyrkan, ända till kyrkvaktaren, en stel och styv soldat, som hade varit med vid Leipzig. ',
+			'en-p': 'English',
+			'fr-p': 'French',
 		}
 	};
 
@@ -66,19 +67,21 @@ merl.typer = ( function ( window, document ) {
 
 		
 
+		
+		t.paste = t.paste.bind( t );
+		t.input = t.input.bind( t );
+		t.change = t.change.bind( t );
 		t.updateText = t.updateText.bind( t );
 		t.updateStyle = t.updateStyle.bind( t );
-		t.paste = t.paste.bind( t );
-		t.change = t.change.bind( t );
-		
+
 
 		for ( var i = 0, len = t.settings.length; i < len; i++ ) {
 			t.settings[ i ].addEventListener( 'input', t.change );
 		}
 
 		t.elemText.addEventListener( 'paste', t.paste );
+		t.elemText.addEventListener( 'input', t.input );
 
-		t.addChildClass( defs.classOutView );
 	};
 
 
@@ -117,13 +120,33 @@ merl.typer = ( function ( window, document ) {
 				var val = evt.target.value;
 				
 				if ( prop === 'content' ) {
-					t.updateText( defs.sample[ val ] );
+					if ( val === 'custom' ) {
+						t.updateText( t.customText );
+					} else {
+						t.updateText( defs.sample[ val ] );	
+					}
 				} else if ( prop === 'font-size' ) {
 					t.updateStyle( prop, val + 'px' );
 				} else {
 					t.updateStyle( prop, val );
 				}
 			}
+		},
+
+
+
+		input: function ( evt ) {
+			var t = this;
+
+			t.customText = evt.target.innerText;
+	// Set to custom
+	// var opts = sample.options;
+	// for ( var opt, i = 0; opt = opts[ i ]; i++ ) {
+	// 	if ( opt.value == 'custom' ) {
+	// 		sample.selectedIndex = i;
+	// 		break;
+	// 	}
+	// }
 		},
 
 		/**
@@ -160,13 +183,6 @@ merl.typer = ( function ( window, document ) {
 
 	};
 
-
-	/**
-	 * @method scrollHandler
-	**/
-	var scrollHandler = function () {
-		
-	};
 
 
 	return {
