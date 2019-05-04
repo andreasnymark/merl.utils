@@ -15,9 +15,8 @@ merl.typer = ( function ( window, document ) {
 	var defs = {
 		selector: '.js-typer',
 		selectPreivew: '.Typer-preview',
-		selectInput: '[data-typer-prop]',
-		attrSync: 'data-typer-sync',
 		attrProperty: 'data-typer-prop',
+		attrSync: 'data-typer-sync',
 		sample: {
 			'sv-h': 'Rubrik på svenska',
 			'sv-p': 'Det kom en visshet över honom, medan han stod där, att han hade idel fiender i kyrkan, fiender i alla bänkar. Bland herrskaperna på läktaren, bland bönderna nere i kyrkan, bland nattvardsbarnen i koret hade han fiender, idel fiender. Det var en fiende, som trampade orgeln, en fiende, som spelade den. I kyrkovärdarnas bänk hade han fiender. Alla hatade honom, alltifrån de små barnen, som hade burits in i kyrkan, ända till kyrkvaktaren, en stel och styv soldat, som hade varit med vid Leipzig. ',
@@ -59,23 +58,23 @@ merl.typer = ( function ( window, document ) {
 	* @param {HTMLElement} elem - DOM Element
 	*/
 	var Typer = function ( elem ) {
-		if ( ! ( this instanceof Typer ) ) {
+		var t = this;
+		if ( ! ( t instanceof Typer ) ) {
 			return new Typer( elem );
 		}
 
-		var t = this;
 		t.elem = elem;
 		t.hasCustom = false;
 		t.customText = '';
 
-		t.inputs = t.elem.querySelectorAll( defs.selectInput );
+		t.inputs = t.elem.querySelectorAll( '[' + defs.attrProperty + ']' );
 		t.elemText = t.elem.querySelector( defs.selectPreivew );
-		/* Handle this */ t.sampleSelect = t.elem.querySelector( '#sample_tt1' );
+		/* Handle this */ t.sampleSelect = t.elem.querySelector( '.js-sampleSelect' );
 
 		t.update = t.update.bind( t );
 		t.addCustom = t.addCustom.bind( t );
 		t.updateText = t.updateText.bind( t );
-		t.removeLang = t.removeLang.bind( t );
+		t.setLang = t.setLang.bind( t );
 		
 		t.updateStyle = t.updateStyle.bind( t );
 		t.pasteRawText = t.pasteRawText.bind( t );
@@ -83,11 +82,11 @@ merl.typer = ( function ( window, document ) {
 
 		for ( var i = 0, len = t.inputs.length; i < len; i++ ) {
 			t.inputs[ i ].addEventListener( 'input', t.update );
+			t.inputs[ i ].addEventListener( 'focusin', selectAll );
 		}
 		t.elemText.addEventListener( 'paste', t.pasteRawText );
 		t.elemText.addEventListener( 'input', t.inputCustomText );
 	};
-
 
 	Typer.prototype = {
 		/**
@@ -103,11 +102,13 @@ merl.typer = ( function ( window, document ) {
 				var prop = evt.target.getAttribute( defs.attrProperty );
 				var sync = evt.target.getAttribute( defs.attrSync ) || false;
 				
-				if ( prop === 'content' ) {
+				if ( prop === 'sample' ) {
 					if ( val === 'custom' ) {
 						t.updateText( t.customText );
 					} else {
+						var lang = evt.target.querySelector(':checked').getAttribute( 'data-typer-lang' );
 						t.updateText( defs.sample[ val ] );	
+						t.setLang( lang )
 					}
 				} else if ( prop === 'font-size' ) {
 					t.updateStyle( prop, val + 'px' );
@@ -143,8 +144,13 @@ merl.typer = ( function ( window, document ) {
 		 * Remove lang attribute, since we can’t 
 		 * tell every time.
 		**/
-		removeLang: function () {
-			this.elemText.removeAttribute( 'lang' );
+		setLang: function ( lang ) {
+			var t = this;
+			if ( lang ) {
+				t.elemText.setAttribute( 'lang', lang );	
+			} else {
+				t.elemText.removeAttribute( 'lang' );
+			}
 		},
 
 		/**
@@ -157,7 +163,7 @@ merl.typer = ( function ( window, document ) {
 			var opt = document.createElement( 'option' );
 
 			opt.value = 'custom';
-			opt.innerHTML = 'Custom';
+			opt.innerHTML = 'Custom sample';
 			
 			grp.label = 'Other';
 			grp.appendChild( opt );
@@ -207,7 +213,7 @@ merl.typer = ( function ( window, document ) {
 			var t = this;
 			try {
 				t.elemText.innerText = txt;	
-				t.removeLang();
+				t.setLang();
 			} catch ( err ) {
 				alert( err.name + ' ' + err.message );
 			}
@@ -229,6 +235,12 @@ merl.typer = ( function ( window, document ) {
 				alert( err.name + ' ' + err.message );
 			}
 		},
+	};
+
+	var selectAll = function ( evt ) {
+		if ( evt.target.nodeName === 'INPUT' ) {
+			evt.target.select();	
+		}
 	};
 
 	return {

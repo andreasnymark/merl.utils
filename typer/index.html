@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>merl.typer.js</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
 
@@ -10,14 +12,19 @@
 	body {
 		padding: 5vw;
 	}
+	input, select {
+		font-size: 16px;
+	}
 	.Typer {
 		font-family: sans-serif;
 		margin: auto;
 		max-width: 60em;
+		hyphens: auto;
 	}
 	.Typer-settings {
 		margin-top: 2rem;
 		display: flex;
+		flex-wrap: wrap;
 	}
 	.Typer-setting + .Typer-setting { padding-left: 1em; }
 	.u-invisible {
@@ -70,14 +77,14 @@
 				<label class="u-invisible" for="weight">Sample text</label>
 				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content" title="Sample text">
 					<optgroup label="Headline">
-						<option value="en-h" selected>English</option>
-						<option value="sv-h">Swedish</option>
-						<option value="fr-h">French</option>
+						<option value="en-h" data-typer-lang="en" selected>English</option>
+						<option value="sv-h" data-typer-lang="sv">Swedish</option>
+						<option value="fr-h" data-typer-lang="fr">French</option>
 					</optgroup>
 					<optgroup label="Paragraph">
-						<option value="en-p">English</option>
-						<option value="sv-p">Swedish</option>
-						<option value="fr-p">French</option>
+						<option value="en-p" data-typer-lang="en">English</option>
+						<option value="sv-p" data-typer-lang="sv">Swedish</option>
+						<option value="fr-p" data-typer-lang="fr">French</option>
 					</optgroup>
 				</select>
 			</div>
@@ -112,8 +119,8 @@
 		<div class="Typer-settings">
 			
 			<div class="Typer-setting">
-				<label class="u-invisible" for="style_tt1">Style</label>
-				<select id="style_tt1" name="style_tt1" data-typer-prop="font-style" title="Style">
+				<label class="u-invisible" for="style1">Style</label>
+				<select data-typer-prop="font-style" id="style1" title="Style">
 					<optgroup label="Style">
 						<option value="normal">Roman</option>
 						<option value="italic">Italic</option>
@@ -122,8 +129,8 @@
 			</div>
 
 			<div class="Typer-setting">
-				<label class="u-invisible" for="weight">Weight</label>
-				<select id="weight" data-typer-prop="font-weight" title="Weight">
+				<label class="u-invisible" for="weight1">Weight</label>
+				<select data-typer-prop="font-weight" id="weight1" title="Weight">
 					<optgroup label="Weight">
 						<option value="300">Light</option>
 						<option value="400" selected>Regular</option>
@@ -133,8 +140,8 @@
 			</div>
 
 			<div class="Typer-setting">
-				<label class="u-invisible" for="weight">Alignment</label>
-				<select class="js-settings" data-typer-prop="text-align" title="Alignment">
+				<label class="u-invisible" for="align1">Alignment</label>
+				<select data-typer-prop="text-align" class="js-settings" id="align1" title="Alignment">
 					<optgroup label="Alignment">
 						<option value="left">Left</option>
 						<option value="center">Center</option>
@@ -144,17 +151,17 @@
 				</select>
 			</div>
 			<div class="Typer-setting">
-				<label class="u-invisible" for="weight">Sample text</label>
-				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content" title="Sample text">
-					<optgroup label="Headline">
-						<option value="en-h">English</option>
-						<option value="sv-h">Swedish</option>
-						<option value="fr-h">French</option>
+				<label class="u-invisible" for="sample1">Sample text</label>
+				<select data-typer-prop="sample" class="js-sampleSelect" id="sample1" name="sample1" title="Sample text">
+					<optgroup label="Sample">
+						<option value="en-h" data-typer-lang="en">English headline</option>
+						<option value="sv-h" data-typer-lang="sv">Swedish headline</option>
+						<option value="fr-h" data-typer-lang="fr">French headline</option>
 					</optgroup>
-					<optgroup label="Paragraph">
-						<option value="en-p">English</option>
-						<option value="sv-p" selected>Swedish</option>
-						<option value="fr-p">French</option>
+					<optgroup label="Sample">
+						<option value="en-p" data-typer-lang="en">English paragraph</option>
+						<option value="sv-p" data-typer-lang="sv" selected>Swedish paragraph</option>
+						<option value="fr-p" data-typer-lang="fr">French paragraph</option>
 					</optgroup>
 				</select>
 			</div>
