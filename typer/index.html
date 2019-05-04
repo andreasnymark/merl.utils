@@ -2,30 +2,41 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>merl.Typer.js</title>
+	<title>merl.typer.js</title>
 </head>
 <body>
 
 <style type="text/css">
+	body {
+		padding: 5vw;
+	}
 	.Typer {
 		font-family: sans-serif;
+		margin: auto;
+		max-width: 60em;
 	}
+	.Typer-settings {
+		margin-top: 2rem;
+		display: flex;
+	}
+	.Typer-setting + .Typer-setting { padding-left: 1em; }
 	.u-invisible {
 		visibility: hidden;
 		position: absolute;
+	}
+	[contenteditable] {
+		outline: none;
 	}
 </style>
 
 
 
 <div class="Typer js-typer">
-	
-
-		<div class="Typer-settings" style="display: flex;">
+		<div class="Typer-settings">
 			
 			<div class="Typer-setting">
 				<label class="u-invisible" for="style_tt1">Style</label>
-				<select id="style_tt1" name="style_tt1" data-typer-prop="font-style">
+				<select id="style_tt1" name="style_tt1" data-typer-prop="font-style" title="Style">
 					<optgroup label="Style">
 						<option value="normal">Roman</option>
 						<option value="italic">Italic</option>
@@ -35,18 +46,18 @@
 
 			<div class="Typer-setting">
 				<label class="u-invisible" for="weight">Weight</label>
-				<select id="weight" data-typer-prop="font-weight">
+				<select id="weight" data-typer-prop="font-weight" title="Weight">
 					<optgroup label="Weight">
 						<option value="300">Light</option>
 						<option value="400">Regular</option>
-						<option value="700">Bold</option>
+						<option value="700" selected>Bold</option>
 					</optgroup>
 				</select>
 			</div>
 
 			<div class="Typer-setting">
 				<label class="u-invisible" for="weight">Alignment</label>
-				<select class="js-settings" data-typer-prop="text-align">
+				<select class="js-settings" data-typer-prop="text-align" title="Alignment">
 					<optgroup label="Alignment">
 						<option value="left">Left</option>
 						<option value="center">Center</option>
@@ -57,29 +68,34 @@
 			</div>
 			<div class="Typer-setting">
 				<label class="u-invisible" for="weight">Sample text</label>
-				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content">
-					<optgroup label="Sample headline">
+				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content" title="Sample text">
+					<optgroup label="Headline">
+						<option value="en-h" selected>English</option>
+						<option value="sv-h">Swedish</option>
+						<option value="fr-h">French</option>
+					</optgroup>
+					<optgroup label="Paragraph">
 						<option value="en-p">English</option>
 						<option value="sv-p">Swedish</option>
 						<option value="fr-p">French</option>
 					</optgroup>
-					<optgroup label="Sample paragraph">
-						<option value="en-h">English</option>
-						<option value="sv-h">Swedish</option>
-						<option value="fr-h">French</option>
-					</optgroup>
-					<option value="custom">Custom</option>
 				</select>
 			</div>
 			<div class="Typer-setting">
-				<label class="u-invisible" id="label_size_tt1">Size</label>
-				<input type="range" class="js-range" data-typer-prop="font-size" id="start" name="size_range" min="12" max="96" step="6" aria-labelledby="label_size_tt1">
-				<input type="text" name="size_value" class="js-rangeValue" aria-labelledby="label_size_tt1">
+				<label class="" id="label_size_tt1">Size</label>
+				<input type="range" class="js-range" data-typer-prop="font-size" data-typer-sync=".js-rangeValue3" id="start" name="size_range" min="12" max="96" step="6" value="60" aria-labelledby="label_size_tt1">
+				<input type="text" name="size_value" class="js-rangeValue3" value="60" data-typer-prop="font-size" data-typer-sync=".js-range" aria-labelledby="label_size_tt1" style="width:40px">
 			</div>
+			<div class="Typer-setting">
+				<label class="" id="label_size_tt1">Line height</label>
+				<input type="range" class="js-range2" data-typer-prop="line-height" data-typer-sync=".js-rangeValue4" id="start" name="size_range" min="1" max="3" step=".1" value="1.2" aria-labelledby="label_size_tt1">
+				<input type="text" name="size_value" class="js-rangeValue4" value="1.2" data-typer-prop="line-height" data-typer-sync=".js-range2" aria-labelledby="label_size_tt1" style="width:40px">
+			</div>
+
 		</div>
 
-		<div class="Typer-text" lang="en" spellcheck="false" autocapitalize="true" inputmode="text" contenteditable="true" style="font-size: 18px">
-			Demo, Typer and try out!
+		<div class="Typer-preview" lang="en" spellcheck="false" autocapitalize="true" inputmode="text" contenteditable="true" style="font-size: 60px; font-weight: 700; line-height: 1.2;">
+			English headline
 		</div>
 
 	
@@ -93,11 +109,11 @@
 <div class="Typer js-typer">
 	
 
-		<div class="Typer-settings" style="display: flex;">
+		<div class="Typer-settings">
 			
 			<div class="Typer-setting">
 				<label class="u-invisible" for="style_tt1">Style</label>
-				<select id="style_tt1" name="style_tt1" data-typer-prop="font-style">
+				<select id="style_tt1" name="style_tt1" data-typer-prop="font-style" title="Style">
 					<optgroup label="Style">
 						<option value="normal">Roman</option>
 						<option value="italic">Italic</option>
@@ -107,10 +123,10 @@
 
 			<div class="Typer-setting">
 				<label class="u-invisible" for="weight">Weight</label>
-				<select id="weight" data-typer-prop="font-weight">
+				<select id="weight" data-typer-prop="font-weight" title="Weight">
 					<optgroup label="Weight">
 						<option value="300">Light</option>
-						<option value="400">Regular</option>
+						<option value="400" selected>Regular</option>
 						<option value="700">Bold</option>
 					</optgroup>
 				</select>
@@ -118,7 +134,7 @@
 
 			<div class="Typer-setting">
 				<label class="u-invisible" for="weight">Alignment</label>
-				<select class="js-settings" data-typer-prop="text-align">
+				<select class="js-settings" data-typer-prop="text-align" title="Alignment">
 					<optgroup label="Alignment">
 						<option value="left">Left</option>
 						<option value="center">Center</option>
@@ -129,36 +145,49 @@
 			</div>
 			<div class="Typer-setting">
 				<label class="u-invisible" for="weight">Sample text</label>
-				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content">
-					<optgroup label="Sample headline">
-						<option value="en-p">English</option>
-						<option value="sv-p">Swedish</option>
-						<option value="fr-p">French</option>
-					</optgroup>
-					<optgroup label="Sample paragraph">
+				<select id="sample_tt1" name="sample_tt1" data-typer-prop="content" title="Sample text">
+					<optgroup label="Headline">
 						<option value="en-h">English</option>
 						<option value="sv-h">Swedish</option>
 						<option value="fr-h">French</option>
 					</optgroup>
-					<option value="custom">Custom</option>
+					<optgroup label="Paragraph">
+						<option value="en-p">English</option>
+						<option value="sv-p" selected>Swedish</option>
+						<option value="fr-p">French</option>
+					</optgroup>
 				</select>
 			</div>
 			<div class="Typer-setting">
-				<label class="u-invisible" id="label_size_tt1">Size</label>
-				<input type="range" class="js-range" data-typer-prop="font-size" id="start" name="size_range" min="12" max="96" step="6" aria-labelledby="label_size_tt1">
-				<input type="text" name="size_value" class="js-rangeValue" aria-labelledby="label_size_tt1">
+				<label class="" id="label_size_tt1">Size</label>
+				<input type="range" class="js-range" data-typer-prop="font-size" data-typer-sync=".js-rangeValue" id="start" name="size_range" min="12" max="96" step="6" value="24" aria-labelledby="label_size_tt1">
+				<input type="text" name="size_value" value="24" data-typer-prop="font-size" data-typer-sync=".js-range" class="js-rangeValue" aria-labelledby="label_size_tt1" style="width:40px">
+			</div>
+			<div class="Typer-setting">
+				<label class="" id="label_size_tt1">Line height</label>
+				<input type="range" class="js-range2" data-typer-prop="line-height" data-typer-sync=".js-rangeValue4" id="start" name="size_range" min="1" max="3" step=".1" value="1.2" aria-labelledby="label_size_tt1">
+				<input type="text" name="size_value" class="js-rangeValue4" value="1.2" data-typer-prop="line-height" data-typer-sync=".js-range2" aria-labelledby="label_size_tt1" style="width:40px">
 			</div>
 		</div>
 
-		<div class="Typer-text" lang="en" spellcheck="false" autocapitalize="true" inputmode="text" contenteditable="true" style="font-size: 18px">
-			Demo, Typer and try out!
+		<div class="Typer-preview" lang="en" spellcheck="false" autocapitalize="true" inputmode="text" contenteditable="true" style="font-size: 24px; line-height: 1.2">
+			Det kom en visshet över honom, medan han stod där, att han hade idel fiender i kyrkan, fiender i alla bänkar. Bland herrskaperna på läktaren, bland bönderna nere i kyrkan, bland nattvardsbarnen i koret hade han fiender, idel fiender. Det var en fiende, som trampade orgeln, en fiende, som spelade den. I kyrkovärdarnas bänk hade han fiender. Alla hatade honom, alltifrån de små barnen, som hade burits in i kyrkan, ända till kyrkvaktaren, en stel och styv soldat, som hade varit med vid Leipzig. 
 		</div>
-
-	
 </div>
 
-
-<button>Add</button><button>Hide style controls</button>
+<br><br>
+<!--button>Add</button --><button onclick="(function() {
+	var els = document.querySelectorAll( '.Typer-settings' );
+	for ( var i = 0, len = els.length; i < len; i++ ) {
+		var e = els[ i ];
+		if ( e.offsetParent ) { 	
+			e.style.display = 'none';
+		} else {
+			e.style.display = 'flex';
+		}
+	}
+	
+})()">Show/hide style controls</button>
 
 
 
