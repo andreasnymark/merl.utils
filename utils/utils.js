@@ -253,6 +253,19 @@ merl.utils = ( function ( window, document ) {
 	};
 
 
+	/**
+	 * Remove from array
+	 */
+	var removeFromObj = function ( obj, val ) {
+		// if ( typeof obj === Object ) {
+			if ( typeof val !== String ) val = String( val );
+			var newObj = obj.filter( function( e ) { return e !== val } );
+			return newObj;
+		// }
+		// return false;
+	};
+
+
 
 
 	return {
@@ -263,8 +276,10 @@ merl.utils = ( function ( window, document ) {
 		evtAnimEnd: evtAnimEnd,
 		hasClass: hasClass,
 		addClass: addClass,
+		rndObj: rndObj,
 		css: css,
 		addAttr: addAttr,
+		removeFromObj: removeFromObj,
 		setDeviceInputClass: setDeviceInputClass,
 	};
 
