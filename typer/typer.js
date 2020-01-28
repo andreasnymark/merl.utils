@@ -72,7 +72,7 @@ merl.typer = ( function ( window, document ) {
 		/* Handle this */ t.sampleSelect = t.elem.querySelector( '.js-sampleSelect' );
 
 		t.update = t.update.bind( t );
-		t.addCustom = t.addCustom.bind( t );
+		t.addCustomOpt = t.addCustomOpt.bind( t );
 		t.updateText = t.updateText.bind( t );
 		t.setLang = t.setLang.bind( t );
 		
@@ -106,7 +106,7 @@ merl.typer = ( function ( window, document ) {
 					if ( val === 'custom' ) {
 						t.updateText( t.customText );
 					} else {
-						var lang = evt.target.querySelector(':checked').getAttribute( 'data-typer-lang' );
+						var lang = evt.target.querySelector( ':checked' ).getAttribute( 'data-typer-lang' ) || null;
 						t.updateText( defs.sample[ val ] );	
 						t.setLang( lang )
 					}
@@ -157,7 +157,7 @@ merl.typer = ( function ( window, document ) {
 		 * Create element and add custom option 
 		 * in sample select.
 		**/
-		addCustom: function () {
+		addCustomOpt: function () {
 			var t = this;
 			var grp = document.createElement( 'optgroup' );
 			var opt = document.createElement( 'option' );
@@ -181,7 +181,7 @@ merl.typer = ( function ( window, document ) {
 			t.customText = evt.target.innerText;
 			if ( ! t.hasCustom ) {
 				t.hasCustom = true;
-				t.addCustom();
+				t.addCustomOpt();
 			}
 			t.activateCustom();
 		},
@@ -212,7 +212,12 @@ merl.typer = ( function ( window, document ) {
 		updateText: function ( txt ) {
 			var t = this;
 			try {
-				t.elemText.innerText = txt;	
+				if ( getWinWidth() < 600 ) {
+					console.log( getWinWidth() );
+					t.elemText.innerText = txt.substring( 0, 120 );		
+				} else {
+					t.elemText.innerText = txt;	
+				}
 				t.setLang();
 			} catch ( err ) {
 				alert( err.name + ' ' + err.message );
@@ -241,6 +246,14 @@ merl.typer = ( function ( window, document ) {
 		if ( evt.target.nodeName === 'INPUT' ) {
 			evt.target.select();	
 		}
+	};
+
+	/**
+	 * @method getWinWidth
+	 * @return { Number }
+	**/
+	var getWinWidth = function () {
+		return ( window.innerWidth || document.documentElement.clientWidth );
 	};
 
 	return {

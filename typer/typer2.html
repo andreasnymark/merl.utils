@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>merl.typer2.js</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+
+<style type="text/css">
+	body {
+		padding: 5vw;
+	}
+	input, select {
+		font-size: 16px;
+	}
+	.Typer {
+		font-family: sans-serif;
+		margin: auto;
+		max-width: 60em;
+		hyphens: auto;
+	}
+	.Typer-settings {
+		margin-top: 2rem;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.Typer-setting + .Typer-setting { padding-left: 1em; }
+	.u-invisible {
+		visibility: hidden;
+		position: absolute;
+	}
+	[contenteditable] {
+		outline: none;
+	}
+</style>
+
+
+
+<div class="Typer">
+		<div class="Typer-settings">
+
+			<div class="Typer-setting">
+				<label class="u-invisible" for="weight">Sample text</label>
+				<select data-typer-prop="sample" class="js-sampleSelect" id="sample1" name="sample1" title="Sample text">
+					<optgroup label="Sample">
+						<option value="en-h" data-typer-lang="en" selected>English headline</option>
+						<option value="sv-h" data-typer-lang="sv">Swedish headline</option>
+						<option value="fr-h" data-typer-lang="fr">French headline</option>
+					</optgroup>
+					<optgroup label="Sample">
+						<option value="en-p" data-typer-lang="en">English paragraph</option>
+						<option value="sv-p" data-typer-lang="sv">Swedish paragraph</option>
+						<option value="fr-p" data-typer-lang="fr">French paragraph</option>
+					</optgroup>
+				</select>
+			</div>
+
+			<div class="Typer-setting">
+				<label id="label_size_tt1">Size</label>
+
+				<input 
+					type="range" 
+					class="js-range" 
+					data-typer-prop="font-size" data-typer-sync=".js-rangeValue3" data-typer-sample=".Typer-preview" 
+
+					data-typer='{ prop: "font-size", sync: ".js-rangeValue3", sample: ".Typer-preview" }'
+
+					id="start" 
+					name="size_range" 
+					min="12" 
+					max="96" 
+					step="6" 
+					value="60" 
+					aria-labelledby="label_size_tt1">
+
+				<input type="text" name="size_value" class="js-rangeValue3" value="60" data-typer-prop="font-size" data-typer-sync=".js-range" aria-labelledby="label_size_tt1" style="width:40px">
+			</div>
+
+		</div>
+
+		<div class="Typer-preview" lang="en" spellcheck="false" autocapitalize="true" inputmode="text" contenteditable="true" style="font-size: 60px; font-weight: 700; line-height: 1.2;">
+			English headline
+		</div>
+
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- script defer type="text/javascript" src="../utils/utils.js"></script -->
+	<script type="text/javascript" src="typer2.js"></script>
+	<script>
+		document.onreadystatechange = function () {
+			if ( document.readyState === 'interactive' ) {
+				merl.typer2.init();
+			}
+		}
+	</script>
+	
+</body>
+</html>
