@@ -1,24 +1,24 @@
+/** @namespace merl */
+var merl = merl || {};
 /**
  * A collection of utility functions.
  *
  * @author Andreas Nymark <andreas@nymark.me>
+ * @namespace utils
+ * @memberof merl
  * @license MIT
-**/
-
-var merl = merl || {};
-
+ */
 merl.utils = ( function ( window, document ) {
 	"use strict";
-
-
+	
 	/**
 	 * Check if element already contains class
-	 * @method hasClass
-	 * @param {HTMLElement} elem - DOM Element
-	 * @param {String} cls - Class name
-	 * @param {Boolean} forceOld - In some cases we need to force old style, even if classlist is supported. E.g. IE and SVG.
-	 * @return {Boolean} bool
-	**/
+	 * @memberof merl.utils
+	 * @param {object} elem - DOM Element
+	 * @param {string} cls - Class name
+	 * @param {boolean} forceOld - In some cases we need to force old style, even if classlist is supported. E.g. IE and SVG.
+	 * @return {boolean} bool
+	 */
 	var hasClass = function ( elem, cls, forceOld ) {
 		var bool;
 		forceOld = forceOld || false;
@@ -31,14 +31,13 @@ merl.utils = ( function ( window, document ) {
 		return bool;
 	};
 
-
 	/**
 	 * Add class to element
-	 * @method addClass
-	 * @param {HTMLElement} elem - DOM Element
-	 * @param {String} cls - Class name
-	 * @param {Boolean} forceOld - In some cases we need to force old style, even if classlist is supported. E.g. IE and SVG.
-	**/
+		* @memberof merl.utils
+	 * @param {object} elem - DOM Element
+	 * @param {string} cls - Class name
+	 * @param {boolean} forceOld - In some cases we need to force old style, even if classlist is supported. E.g. IE and SVG.
+	 */
 	var addClass = function ( elem, cls, forceOld ) {
 		forceOld = forceOld || false;
 		if ( elem.classList && !forceOld ) {
@@ -48,14 +47,13 @@ merl.utils = ( function ( window, document ) {
 		}
 	};
 
-
 	/**
 	 * Remove class from element
-	 * @method removeClass
-	 * @param {HTMLElement} elem - DOM Element
-	 * @param {String} cls - Class name
-	 * @param {Boolean} forceOld - In some cases we need to force old style, even if classlist is ”supported”. E.g. IE and SVG.
-	**/
+	 * @memberof merl.utils
+	 * @param {object} elem - DOM Element
+	 * @param {string} cls - Class name
+	 * @param {boolean} forceOld - In some cases we need to force old style, even if classlist is ”supported”. E.g. IE and SVG.
+	 */
 	var removeClass = function ( elem, cls, forceOld ) {
 		forceOld = forceOld || false;
 		if ( elem.classList && !forceOld ) {
@@ -66,14 +64,13 @@ merl.utils = ( function ( window, document ) {
 		}
 	};
 
-
 	/**
-	 * Traverse DOM upwards until class
-	 * @method parentUntilClass
-	 * @param {HTMLElement} elem - Element to start from
-	 * @param {String} cls - Class name where to stop
-	 * @return {HTMLElement} elem
-	**/
+	 * Traverse DOM upwards until class name
+	 * @memberof merl.utils
+	 * @param {object} elem - Element to start from
+	 * @param {string} cls - Class name where to stop
+	 * @return {object} elem
+	 */
 	var parentUntilClass = function ( elem, cls ) {
 		if ( /^(\.|#)/.test( cls ) ) cls = cls.substr( 1 );
 
@@ -89,11 +86,11 @@ merl.utils = ( function ( window, document ) {
 
 	/**
 	 * Return supported event for animationend.
-	 * @method evtAnimEnd
-	 * @return {String} anims - supported event.
-	**/
+	 * @memberof merl.utils
+	 * @return {string} anims - supported event.
+	 */
 	var evtAnimEnd = function () {
-  		var elem = document.createElement( 'div' ),
+			var elem = document.createElement( 'div' ),
 			anims = {
 				'animation': 'animationend',
 				'OAnimation': 'oAnimationEnd',
@@ -109,28 +106,25 @@ merl.utils = ( function ( window, document ) {
 		}
 	};
 
-
 	/**
 	 * Add styles to element
-	 * @method css
-	 * @param {HTMLElement} elem - DOM Element
-	 * @param {Object} styles - Styles passed as object
-	**/
+	 * @memberof merl.utils
+	 * @param {object} elem - DOM Element
+	 * @param {object} styles - Styles passed as object
+	 */
 	var css = function ( elem, styles ) {
 		for ( var prop in styles ) {
 			elem.style[ prop ] = styles[ prop ];
 		}
 	};
 
-
 	/**
 	 * Replace element with another, keeping all attributes
-	 *
-	 * @method changeElement
-	 * @param elem {HTMLElement} - DOM Element
-	 * @param newTag {String} - name of new tag
-	 * @return {Object}
-	**/
+	 * @memberof merl.utils
+	 * @param {object} elem - DOM Element
+	 * @param {string} newTag - name of new tag
+	 * @return {object}
+	 */
 	var changeElement = function( elem, newTag ) {
 		newTag = typeof newTag !== 'undefined' ? newTag : 'div';
 		if ( elem ) {
@@ -146,14 +140,12 @@ merl.utils = ( function ( window, document ) {
 		}
 	};
 
-
 	/**
 	 * Add attributes
-	 *
-	 * @method addAttr
-	 * @param elem {HTMLElement} - DOM Element
-	 * @param attr {Array} - attr: value pair
-	**/
+	 * @memberof merl.utils
+	 * @param {object} elem - DOM Element
+	 * @param {Array} attr - attr: value pair
+	 */
 	var addAttr = function( elem, attrs ) {
 		if ( elem && attr instanceof Array ) {
 			for ( var i = 0, len = attr.length; i < len; i++ ) {
@@ -164,15 +156,12 @@ merl.utils = ( function ( window, document ) {
 		}
 	};
 
-
-
 	/**
 	 * Get sibling elements, excluding the element
-	 *
-	 * @method getSiblings
-	 * @param elem {Object} Element to get siblings from
+	 * @memberof merl.utils
+	 * @param {object} elem - Element to get siblings from
 	 * @return {Array}
-	**/
+	 */
 	var getSiblings = function ( elem ) {
 		var siblings = [];
 		var child = elem.parentNode.firstChild;
@@ -185,13 +174,11 @@ merl.utils = ( function ( window, document ) {
 	};
 
 
-
-
 	/**
-	 * Returns random value from Object
-	 * @method rndObj
-	 * @param {Object} obj - list of values to randomize.
-	 * @return {String} value
+	 * Returns random value from object
+	 * @memberof merl.utils
+	 * @param {object} obj - list of values to randomize.
+	 * @return {string} value
 	 */
 	var rndObj = function ( obj ) {
 		if ( typeof obj === 'object' ) {
@@ -200,13 +187,11 @@ merl.utils = ( function ( window, document ) {
 		}
 	};
 
-
-
 	/**
 	 * Toggle class on body element based on what kind of 
 	 * input device the user is using. 
-	 * @method setDeviceInputClass
-	 * @param obj {Object} - class name to add on body
+	 * @memberof merl.utils
+	 * @param {object} obj - class name to add on body
 	 */
 	var setDeviceInputClass = function ( obj ) {
 		if ( typeof obj === 'object' ) {
@@ -230,15 +215,12 @@ merl.utils = ( function ( window, document ) {
 		}
 	};
 
-
-
-
-	// https://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
 	/**
-	 * Returns random value from Object
-	 * @method rndObj
-	 * @param {Object} obj - list of values to randomize.
-	 * @return {String} value
+	 * Execute a function via name. A bit unsure about this one …
+	 * @memberof merl.utils
+	 * @param {string} functionName - name of function to execute, including namespace.
+	 * @param {object} context - name of function to execute, including namespace.
+	 * @return {string} value
 	 */
 	var executeFunctionByName = function ( functionName, context /*, args */) {
 		var args = Array.prototype.slice.call( arguments, 2 ),
@@ -251,22 +233,39 @@ merl.utils = ( function ( window, document ) {
 
 		return context[ func ].apply( context, args );
 	};
-
-
+	
 	/**
-	 * Remove from array
+	 * Remove a value from an object, returning new object.
+	 * @memberof merl.utils
+	 * @param {object} obj - Object to remove value from
+	 * @param {string} val - Value in above object to remove
+	 * @return {object} new object
 	 */
 	var removeFromObj = function ( obj, val ) {
-		// if ( typeof obj === Object ) {
-			if ( typeof val !== String ) val = String( val );
-			var newObj = obj.filter( function( e ) { return e !== val } );
-			return newObj;
-		// }
-		// return false;
+		if ( typeof val !== string ) val = string( val );
+		var newObj = obj.filter( function( e ) { return e !== val } );
+		return newObj;
 	};
-
-
-
+	
+	/** 
+	 * JavaScript function that checks to see whether an array contains a certain value.
+	 * @memberof merl.utils
+	 * @param {array} arr - The array you want to search.
+	 * @param {string} searchFor - The value you want to search for.
+	 * @returns {boolean} returns true if the value exists in the array
+	 */
+	function inArray( arr, searchFor ){
+		if ( typeof arr.includes == 'undefined' ) {
+			var arrLength = arr.length;
+			for ( var i = 0; i < arrLength; i++ ) {
+				if ( arr[ i ] === searchFor ) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return arr.includes( searchFor );
+	}
 
 	return {
 		parentUntilClass: parentUntilClass,
@@ -276,11 +275,11 @@ merl.utils = ( function ( window, document ) {
 		evtAnimEnd: evtAnimEnd,
 		hasClass: hasClass,
 		addClass: addClass,
-		rndObj: rndObj,
 		css: css,
 		addAttr: addAttr,
+		rndObj: rndObj,
 		removeFromObj: removeFromObj,
 		setDeviceInputClass: setDeviceInputClass,
+		inArray: inArray,
 	};
-
 }( window, document ));
